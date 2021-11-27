@@ -32,10 +32,8 @@ public:
     int readBytes(int,void*,unsigned int);
     // Commands:
     void login(int client);
-    //int searchUsernameAndPassword(char *, char *);
-    int searchInviteCode(char*);
-    int createAccount(char*,char*);
     void signUp(int client);
+    void recvMsg(int client, char * str);
 
 private:
     int socketServer;

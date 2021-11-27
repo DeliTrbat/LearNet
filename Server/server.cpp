@@ -39,7 +39,6 @@ void Server::acceptClients()
             pidClient = 1; // Make sure pidClient is not 0
         }
         if (pidClient == 0)
-            //pthread_create (&th[clientsCounter], NULL, &executeClient(client,msg), NULL);
             executeClient(client, msg);
     }
 }

@@ -31,13 +31,6 @@ bool Client::sendBufferSize(int size)
         handle_error("[client]Error sendBufferSize(int).\n");
     return true;
 }
-/*bool Client::sendBufferStr(std::string &str)
-{
-    char* msg = (char*)str.c_str();
-    if (write(this->socketClient,msg,strlen(msg)) == -1)
-        handle_error("[client]Error sendBuffer(std::string).\n");
-    return true;
-}*/
 bool Client::sendBufferChar(char* msg)
 {
     if (write(this->socketClient,msg,strlen(msg)) == -1)
@@ -45,7 +38,6 @@ bool Client::sendBufferChar(char* msg)
     return true;
 }
 //  Receive
-
 int Client::receiveBufferSize()
 {
     int size = 0;

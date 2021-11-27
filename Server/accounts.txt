@@ -1,4 +1,0 @@
-admin:admin
-Deli:12345
-Ana:ana
-Ion:42fsdg
