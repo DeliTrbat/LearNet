@@ -7,12 +7,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <arpa/inet.h>
+#include <string>
+#include <strings.h>
+#include <unistd.h>
+#include <string.h>
 
 class Client
 {
 public:
     Client(char*,int);
     bool connectToServer();
+    bool sendBufferSize(int);
+    //bool sendBufferStr(std::string&);
+    bool sendBufferChar(char*);
+
+    int receiveBufferSize();
+    bool receiveBufferChar(char*);
+
 private:
     int socketClient;
     sockaddr_in addr;
