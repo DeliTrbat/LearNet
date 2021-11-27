@@ -20,6 +20,8 @@ Server::Server(int port)
 
     if (listen(this->socketServer, 20) == -1)
         handle_error("[server]Error listen().\n");
+
+    sqlite3_open("databaseServer.db", &db);
 }
 
 void Server::acceptClients()
@@ -63,14 +65,16 @@ void Server::executeClient(int client, char *command)
             close(client);
             break;
         }
-        printf("Command: %s, size: %d \n",command,size);
-        if(strcmp(command,"login") == 0)
+        printf("Command: %s, size: %d \n", command, size);
+        if (strcmp(command, "login") == 0)
         {
             login(client);
-        } else if( strcmp(command,"signUp") == 0)
+        }
+        else if (strcmp(command, "signUp") == 0)
         {
             signUp(client);
-        } else if(strcmp(command,"quit") == 0)
+        }
+        else if (strcmp(command, "quit") == 0)
             break;
     }
     close(client);

@@ -10,7 +10,10 @@
 #include <string.h>
 #include <stdlib.h>
 #include <wait.h>
+#include <sqlite3.h>
+#include <string>
 #include <pthread.h>
+
 
 extern int errno;
 
@@ -27,9 +30,9 @@ public:
     void acceptClients();
     void executeClient(int,char*);
     int readBytes(int,void*,unsigned int);
-    // Commands
+    // Commands:
     void login(int client);
-    int searchUsernameAndPassword(char *, char *);
+    //int searchUsernameAndPassword(char *, char *);
     int searchInviteCode(char*);
     int createAccount(char*,char*);
     void signUp(int client);
@@ -39,6 +42,7 @@ private:
     sockaddr_in addrServer;
     sockaddr_in addrClient;
     int sizeAddr = sizeof(addrServer);
+    sqlite3* db;
 };
 
 #endif // SERVER_H
