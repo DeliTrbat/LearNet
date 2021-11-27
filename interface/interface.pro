@@ -19,19 +19,16 @@ SOURCES += \
     appdialog.cpp \
     main.cpp \
     mainwindow.cpp \
-    client.cpp \
-    signupdialog.cpp
+    client.cpp
 
 HEADERS += \
     appdialog.h \
     mainwindow.h \
-    client.h \
-    signupdialog.h
+    client.h
 
 FORMS += \
     appdialog.ui \
-    mainwindow.ui \
-    signupdialog.ui
+    mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

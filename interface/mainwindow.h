@@ -2,9 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QMessageBox>
+#include <QCloseEvent>
 #include "ui_mainwindow.h"
 #include "appdialog.h"
-#include "signupdialog.h"
 #include "client.h"
 
 QT_BEGIN_NAMESPACE
@@ -18,12 +19,12 @@ class MainWindow : public QMainWindow
 private:
     Ui::MainWindow *ui;
     AppDialog *appDialog;
-    SignUpDialog *signUpDialog;
     Client *client;
 
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void closeEvent (QCloseEvent *event);
     void setClient(Client*);
 
 

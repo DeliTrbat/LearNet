@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>301</width>
-    <height>236</height>
+    <width>437</width>
+    <height>342</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,8 +22,8 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>271</width>
-      <height>171</height>
+      <width>411</width>
+      <height>291</height>
      </rect>
     </property>
     <property name="title">
@@ -32,10 +32,10 @@
     <widget class="QPushButton" name="pushButton_Login">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>130</y>
-       <width>141</width>
-       <height>31</height>
+       <x>50</x>
+       <y>200</y>
+       <width>131</width>
+       <height>41</height>
       </rect>
      </property>
      <property name="text">
@@ -45,23 +45,23 @@
     <widget class="QPushButton" name="pushButton_SignUp">
      <property name="geometry">
       <rect>
-       <x>160</x>
-       <y>130</y>
-       <width>91</width>
-       <height>31</height>
+       <x>220</x>
+       <y>200</y>
+       <width>121</width>
+       <height>41</height>
       </rect>
      </property>
      <property name="text">
       <string>Sign Up</string>
      </property>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>30</x>
-       <y>60</y>
-       <width>219</width>
-       <height>27</height>
+       <y>40</y>
+       <width>331</width>
+       <height>51</height>
       </rect>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout">
@@ -77,13 +77,13 @@
       </item>
      </layout>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>30</x>
        <y>90</y>
-       <width>221</width>
-       <height>27</height>
+       <width>331</width>
+       <height>51</height>
       </rect>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -95,7 +95,33 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEdit_password"/>
+       <widget class="QLineEdit" name="lineEdit_password">
+        <property name="echoMode">
+         <enum>QLineEdit::Password</enum>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>140</y>
+       <width>331</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <item>
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Invite code:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="lineEdit_inviteCode"/>
       </item>
      </layout>
     </widget>
@@ -106,7 +132,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>301</width>
+     <width>437</width>
      <height>22</height>
     </rect>
    </property>

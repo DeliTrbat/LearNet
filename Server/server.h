@@ -30,6 +30,8 @@ public:
     // Commands
     void login(int client);
     int searchUsernameAndPassword(char *, char *);
+    int searchInviteCode(char*);
+    int createAccount(char*,char*);
     void signUp(int client);
 
 private:

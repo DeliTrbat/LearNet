@@ -27,7 +27,7 @@ void Server::acceptClients()
     while (1)
     {
         int client;
-        char msg[1000];
+        char msg[1024];
         socklen_t length = sizeof(this->addrClient);
         client = accept(this->socketServer, (struct sockaddr *)&addrClient, &length);
         pid_t pidClient;
@@ -70,42 +70,8 @@ void Server::executeClient(int client, char *command)
         } else if( strcmp(command,"signUp") == 0)
         {
             signUp(client);
-        }
-        // pid_t pid;
-        // if ((pid = fork()) == -1)
-        // {
-        //     perror("[server]Error fork().\n");
-        //     break;
-        // }
-        // if (pid == 0)
-        // {
-        //     if (dup2(client, STDOUT_FILENO) == -1)
-        //     {
-        //         handle_error("[server]Error dup2().\n");
-        //     }
-        //     printf("Seaching key %s\n", msg);
-        //     int found = searchKey(msg);
-        //     if (found == 1)
-        //     {
-        //         execl(msg, msg + 5, NULL);
-        //         handle_error("[server]Error execl().\n");
-        //     }
-        //     else
-        //     {
-        //         if (write(client, "Unknown key\0", LINE_MAX) <= 0)
-        //         {
-        //             handle_error("[server]Error write()\n");
-        //         }
-        //         exit(-1);
-        //     }
-        // }
-        // int status;
-        // wait(&status);
-        // if (WIFEXITED(status))
-        // {
-        //     if (WEXITSTATUS(status) != 0)
-        //         break;
-        // }
+        } else if(strcmp(command,"quit") == 0)
+            break;
     }
     close(client);
     exit(1);
