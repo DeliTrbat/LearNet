@@ -59,6 +59,7 @@ void Server::signUp(int client)
         recvMsg(client,username);
         recvMsg(client,password);
         printf("Username: %s, Password: %s \n", username, password);
+        // Add verification if username and password exists ( are not null or username has other chars than [a-zA-Z]) and if the username is not already in use
         char sql[256];
         sprintf(sql, "INSERT INTO accounts VALUES (\'%s\',\'%s\')", username, password);
         printf("Command: %s\n", sql);

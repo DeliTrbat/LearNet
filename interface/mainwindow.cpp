@@ -3,6 +3,25 @@
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    setWindowTitle("LearNet");
+
+    // Placeholder text
+    ui->lineEdit_username->setPlaceholderText("Username");
+    ui->lineEdit_password->setPlaceholderText("Password");
+    ui->lineEdit_inviteCode->setPlaceholderText("Invitation code");
+
+    // Clear Button Enable
+    ui->lineEdit_username->setClearButtonEnabled(true);
+    ui->lineEdit_password->setClearButtonEnabled(true);
+    ui->lineEdit_inviteCode->setClearButtonEnabled(true);
+
+    // Set Maximum size
+    ui->lineEdit_username->setMaxLength(32);
+    ui->lineEdit_password->setMaxLength(64);
+    ui->lineEdit_inviteCode->setMaxLength(32);
+
+
+
 }
 
 MainWindow::~MainWindow()
