@@ -5,7 +5,7 @@
 #include <QMessageBox>
 #include <QCloseEvent>
 #include "ui_mainwindow.h"
-#include "appdialog.h"
+#include "application.h"
 #include "client.h"
 
 QT_BEGIN_NAMESPACE
@@ -18,7 +18,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 private:
     Ui::MainWindow *ui;
-    AppDialog *appDialog;
+    Application appMenu;
     Client *client;
 
 public:
@@ -28,7 +28,9 @@ public:
     void setClient(Client*);
 
 
+
 private slots:
+    void logout();
     void on_pushButton_Login_clicked();
     void on_pushButton_SignUp_clicked();
 };

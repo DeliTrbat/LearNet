@@ -20,8 +20,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->lineEdit_password->setMaxLength(64);
     ui->lineEdit_inviteCode->setMaxLength(32);
 
+    ui->stackedWidget->insertWidget(1,&appMenu);
 
-
+    connect(&appMenu,SIGNAL(logoutClicked()),this,SLOT(logout()));
 }
 
 MainWindow::~MainWindow()
@@ -45,7 +46,10 @@ void MainWindow::setClient(Client *client)
 {
     this->client = client;
 }
-
+void MainWindow::logout()
+{
+    ui->stackedWidget->setCurrentIndex(0);
+}
 void MainWindow::on_pushButton_Login_clicked()
 {
     QString username = ui->lineEdit_username->text();
@@ -67,9 +71,7 @@ void MainWindow::on_pushButton_Login_clicked()
     if(size == 1)
     {
         QMessageBox::information(this,"Login","Username and password are correct");
-        hide();
-        this->appDialog = new AppDialog(this);
-        appDialog->show();
+        ui->stackedWidget->setCurrentIndex(1);
     }
     else
         QMessageBox::warning(this,"Login","Username or password is not correct");
@@ -102,9 +104,7 @@ void MainWindow::on_pushButton_SignUp_clicked()
     this->client->sendBufferChar(pwd.data());
 
     QMessageBox::information(this,"SignUp","You have been succesfully registered");
-    hide();
-    this->appDialog = new AppDialog(this);
-    appDialog->show();
+    ui->stackedWidget->setCurrentIndex(1);
     }
     else
         QMessageBox::warning(this,"SignUp","Incorrec invite code!");
