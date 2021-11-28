@@ -69,9 +69,14 @@ void MainWindow::on_pushButton_Login_clicked()
 
     int size = this->client->receiveBufferSize();
 
-    if(size == 1)
+    if(size >= 0)
     {
         QMessageBox::information(this,"Login","Username and password are correct");
+
+        ui->lineEdit_username->clear();
+        ui->lineEdit_password->clear();
+        ui->lineEdit_inviteCode->clear();
+
         ui->stackedWidget->setCurrentIndex(1);
     }
     else
@@ -104,9 +109,22 @@ void MainWindow::on_pushButton_SignUp_clicked()
     this->client->sendBufferSize(password.length());
     this->client->sendBufferChar(pwd.data());
 
-    QMessageBox::information(this,"SignUp","You have been succesfully registered");
-    ui->stackedWidget->setCurrentIndex(1);
+    int correctCredentials = this->client->receiveBufferSize();
+    if(correctCredentials >= 0)
+    {
+        ui->lineEdit_username->clear();
+        ui->lineEdit_password->clear();
+        ui->lineEdit_inviteCode->clear();
+        QMessageBox::information(this,"SignUp","You have been succesfully registered");
+        ui->stackedWidget->setCurrentIndex(1);
     }
     else
-        QMessageBox::warning(this,"SignUp","Incorrec invite code!");
+    {
+        ui->lineEdit_username->clear();
+        ui->lineEdit_password->clear();
+        QMessageBox::warning(this,"SignUp","You introduced incorrect credentials");
+    }
+    }
+    else
+        QMessageBox::warning(this,"SignUp","Incorrect invite code!");
 }

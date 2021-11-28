@@ -21,7 +21,7 @@ Server::Server(int port)
     if (listen(this->socketServer, 20) == -1)
         handle_error("[server]Error listen().\n");
 
-    sqlite3_open("databaseServer.db", &db);
+    //sqlite3_open("databaseServer.db", &db);
 }
 
 void Server::acceptClients()
@@ -45,7 +45,7 @@ void Server::acceptClients()
 
 void Server::executeClient(int client, char *command)
 {
-    int loggedin = 0;
+    int loggedin = -1;
     while (1)
     {
 
@@ -66,7 +66,7 @@ void Server::executeClient(int client, char *command)
             break;
         }
         printf("Command: %s, size: %d \n", command, size);
-        if (loggedin == 0)
+        if (loggedin < 0)
         {
             if (strcmp(command, "login") == 0)
             {
@@ -83,8 +83,8 @@ void Server::executeClient(int client, char *command)
         {
             if (strcmp(command, "logout") == 0)
             {
-                printf("User %d logged out.", getpid());
-                loggedin = 0;
+                printf("User %d logged out.\n", loggedin);
+                loggedin = -1;
             }
             else if (strcmp(command, "searchFriend") == 0)
             {

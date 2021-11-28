@@ -12,8 +12,7 @@
 #include <wait.h>
 #include <sqlite3.h>
 #include <string>
-#include <pthread.h>
-
+#include "dbutilities.h"
 
 extern int errno;
 
@@ -41,7 +40,7 @@ private:
     sockaddr_in addrServer;
     sockaddr_in addrClient;
     int sizeAddr = sizeof(addrServer);
-    sqlite3* db;
+    const char* database = "databaseServer.db";
 };
 
 #endif // SERVER_H
