@@ -7,3 +7,8 @@ Realizati un sistem cu arhitectura client/server care sa ajute la invatarea prin
 **Add verification if username and password exists ( are not null or username has other chars than [a-zA-Z]) and if the username is not already in use \[server\]**
 
 **Add password encryption \[server\]**
+
+**Check if username = current client username in searchFriend(int)**
+
+**Add friend list and fiends table to the database**
+

@@ -18,7 +18,6 @@ public:
     Client(char*,int);
     bool connectToServer();
     bool sendBufferSize(int);
-    //bool sendBufferStr(std::string&);
     bool sendBufferChar(char*);
 
     int receiveBufferSize();

@@ -45,6 +45,7 @@ void MainWindow::closeEvent (QCloseEvent *event)
 void MainWindow::setClient(Client *client)
 {
     this->client = client;
+    this->appMenu.setClient(client);
 }
 void MainWindow::logout()
 {

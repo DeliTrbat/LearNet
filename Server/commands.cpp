@@ -1,11 +1,11 @@
 #include "server.h"
 
-void Server::login(int client)
+int Server::login(int client)
 {
     int found = 0;
     char username[32], password[64];
-    recvMsg(client,username);
-    recvMsg(client,password);
+    recvMsg(client, username);
+    recvMsg(client, password);
     printf("Username: %s, Password: %s \n", username, password);
     char sql[256];
     sprintf(sql, "SELECT * FROM accounts WHERE username=\'%s\' and password=\'%s\';", username, password);
@@ -26,13 +26,14 @@ void Server::login(int client)
     }
     if (write(client, &found, sizeof(int)) == -1)
         handle_error("[client]Error sendBufferSize(int).\n");
+    return found;
 }
 
-void Server::signUp(int client)
+int Server::signUp(int client)
 {
     int found = 0;
     char inviteCode[32];
-    recvMsg(client,inviteCode);
+    recvMsg(client, inviteCode);
     printf("InviteCode: %s \n", inviteCode);
     char sql[256];
     sprintf(sql, "SELECT * FROM invitecodes WHERE code = \'%s\'", inviteCode);
@@ -56,8 +57,8 @@ void Server::signUp(int client)
     if (found == 1)
     {
         char username[32], password[64];
-        recvMsg(client,username);
-        recvMsg(client,password);
+        recvMsg(client, username);
+        recvMsg(client, password);
         printf("Username: %s, Password: %s \n", username, password);
         // Add verification if username and password exists ( are not null or username has other chars than [a-zA-Z]) and if the username is not already in use
         char sql[256];
@@ -69,17 +70,32 @@ void Server::signUp(int client)
         if (write(client, &found, sizeof(int)) == -1)
             handle_error("[server]Error sendBufferSize(int).\n");
     }
+    return found;
 }
 
-void Server::recvMsg(int client, char * str)
+void Server::searchFriend(int client)
 {
-    int size = 0;
-    if (read(client, &size, sizeof(int)) == -1)
-        handle_error("[server]Error readBufferSize(int).\n");
-    if (readBytes(client, str, size) == -1)
+    int found = 0;
+    char username[32];
+    recvMsg(client, username);
+    printf("Username: %s \n", username);
+    char sql[256];
+    sprintf(sql, "SELECT * FROM accounts WHERE username = \'%s\'", username);
+    printf("Command: %s\n", sql);
+    sqlite3_stmt *selectstmt;
+    if (sqlite3_prepare_v2(db, sql, -1, &selectstmt, NULL) == SQLITE_OK)
     {
-        perror("[server]Error read().\n");
-        close(client);
+        if (sqlite3_step(selectstmt) == SQLITE_ROW)
+        {
+            // Found.
+            found = 1;
+        }
+        else
+        {
+            // Not found.
+            found = 0;
+        }
     }
-    str[size] = '\0';
+    if (write(client, &found, sizeof(int)) == -1)
+        handle_error("[server]Error sendBufferSize(int).\n");
 }

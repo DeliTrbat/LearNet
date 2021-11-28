@@ -45,6 +45,7 @@ void Server::acceptClients()
 
 void Server::executeClient(int client, char *command)
 {
+    int loggedin = 0;
     while (1)
     {
 
@@ -65,16 +66,33 @@ void Server::executeClient(int client, char *command)
             break;
         }
         printf("Command: %s, size: %d \n", command, size);
-        if (strcmp(command, "login") == 0)
+        if (loggedin == 0)
         {
-            login(client);
+            if (strcmp(command, "login") == 0)
+            {
+                loggedin = login(client);
+            }
+            else if (strcmp(command, "signUp") == 0)
+            {
+                loggedin = signUp(client);
+            }
+            else if (strcmp(command, "quit") == 0)
+                break;
         }
-        else if (strcmp(command, "signUp") == 0)
+        else
         {
-            signUp(client);
+            if (strcmp(command, "logout") == 0)
+            {
+                printf("User %d logged out.", getpid());
+                loggedin = 0;
+            }
+            else if (strcmp(command, "searchFriend") == 0)
+            {
+                searchFriend(client);
+            }
+            else if (strcmp(command, "quit") == 0)
+                break;
         }
-        else if (strcmp(command, "quit") == 0)
-            break;
     }
     close(client);
     exit(1);
@@ -92,4 +110,17 @@ int Server::readBytes(int socket, void *buffer, unsigned int x)
         bytesRead += result;
     }
     return 1;
+}
+
+void Server::recvMsg(int client, char *str)
+{
+    int size = 0;
+    if (read(client, &size, sizeof(int)) == -1)
+        handle_error("[server]Error readBufferSize(int).\n");
+    if (readBytes(client, str, size) == -1)
+    {
+        perror("[server]Error read().\n");
+        close(client);
+    }
+    str[size] = '\0';
 }

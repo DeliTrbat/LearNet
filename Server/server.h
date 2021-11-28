@@ -31,8 +31,9 @@ public:
     void executeClient(int,char*);
     int readBytes(int,void*,unsigned int);
     // Commands:
-    void login(int client);
-    void signUp(int client);
+    int login(int client);
+    int signUp(int client);
+    void searchFriend(int client);
     void recvMsg(int client, char * str);
 
 private:
