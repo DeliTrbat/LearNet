@@ -8,7 +8,4 @@ Realizati un sistem cu arhitectura client/server care sa ajute la invatarea prin
 
 **Add password encryption \[server\]**
 
-**Check if username = current client username in searchFriend(int)**
-
-**Add friend list and fiends table to the database**
 

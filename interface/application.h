@@ -28,6 +28,8 @@ private slots:
 
     void on_pushButton_addFriend_clicked();
 
+    void openChat(const char*);
+
 signals:
     void logoutClicked();
 

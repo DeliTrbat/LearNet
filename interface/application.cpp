@@ -52,14 +52,30 @@ void Application::on_pushButton_friends_clicked()
         for(int i = 0 ;i < count;i++)
         {
             this->client->receiveBufferChar(str);
-            this->layoutFriends->addRow(new QLabel(str),new QPushButton("Message"));
+            QPushButton * button = new QPushButton("Message");
+            this->layoutFriends->addRow(new QLabel(str),button);
+            connect(button,&QPushButton::clicked,this,[=]{ openChat(str);});
         }
         QWidget *scrollContents = new QWidget(this);
         scrollContents->setLayout(this->layoutFriends);
         ui->scrollArea->setWidget(scrollContents);
     }
 }
-
+void Application::openChat(const char* str)
+{
+    if(strcmp(str,"Alin") == 0) //TO DO: Open chat window with name "Chat str" and send str to server to connect the chat window to the correct chat database (client id - str)
+    {
+        QMessageBox::warning(this,"Chat","User Alin");
+    }
+    if(strcmp(str,"admin") == 0)
+    {
+        QMessageBox::warning(this,"Chat","User admin");
+    }
+    if(strcmp(str,"Gicu") == 0)
+    {
+        QMessageBox::warning(this,"Chat","User Gicu");
+    }
+}
 void Application::on_pushButton_mainMenu_clicked()
 {
     showPage(0);
@@ -86,14 +102,17 @@ void Application::on_pushButton_addFriend_clicked()
     case 0: QMessageBox::warning(this,"searchFriend","User already in friend list!");
         break;
     case 1: QMessageBox::information(this,"searchFriend","Friend added");
-        this->layoutFriends->addRow(new QLabel(usr.data()),new QPushButton("Message"));
         break;
-    case 2: QMessageBox::warning(this,"searchFriend","Why you want to add yourself as a friend?");
+    case 2: QMessageBox::warning(this,"searchFriend","Why are you so lonely?");
         break;
     default: break;
     }
     if(size == 1)
     {
+        QPushButton * button = new QPushButton("Message");
+        this->layoutFriends->addRow(new QLabel(usr.data()),button);
+        connect(button,&QPushButton::clicked,this,[=]{ openChat(usr.data());});
+
         QWidget *scrollContents = new QWidget(this);
         scrollContents->setLayout(this->layoutFriends);
         ui->scrollArea->setWidget(scrollContents);
