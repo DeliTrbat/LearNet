@@ -28,12 +28,16 @@ public:
     Server(int);
     void acceptClients();
     void executeClient(int,char*);
-    int readBytes(int,void*,unsigned int);
+
     // Commands:
     int login(int client);
     int signUp(int client);
-    void searchFriend(int client);
+    void searchFriend(int client,int id);
+    void sendUserFriends(int client,int id);
+
+    int readBytes(int,void*,unsigned int);
     void recvMsg(int client, char * str);
+    void sendMsg(int client, char *str);
 
 private:
     int socketServer;

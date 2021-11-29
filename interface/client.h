@@ -21,7 +21,8 @@ public:
     bool sendBufferChar(char*);
 
     int receiveBufferSize();
-    bool receiveBufferChar(char*);
+    void receiveBufferChar(char*);
+    int readBytes(int,void*,unsigned int);
 
 private:
     int socketClient;

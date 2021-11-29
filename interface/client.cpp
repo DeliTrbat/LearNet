@@ -42,14 +42,31 @@ int Client::receiveBufferSize()
 {
     int size = 0;
     if (read(this->socketClient, &size, sizeof(int)) == -1)
-        handle_error("[client]Error sendBufferSize(int).\n");
+        handle_error("[client]Error receiveBufferSize(int).\n");
     return size;
 }
 
-bool Client::receiveBufferChar(char* msg)
+void Client::receiveBufferChar(char *str)
 {
-    if (read(this->socketClient,msg,sizeof(msg)) == -1)
-        handle_error("[client]Error sendBuffer(std::string).\n");
-    return true;
+    int size = 0;
+    if (read(this->socketClient, &size, sizeof(int)) == -1)
+        handle_error("[client]Error readBufferSize(int).\n");
+    if (readBytes(this->socketClient, str, size) == -1)
+        handle_error("[client]Error read().\n");
+    str[size] = '\0';
+}
+
+int Client::readBytes(int socket, void *buffer, unsigned int x)
+{
+    int bytesRead = 0;
+    int result;
+    while (bytesRead < x)
+    {
+        result = read(socket, buffer + bytesRead, x - bytesRead);
+        if (result < 1)
+            return -1;
+        bytesRead += result;
+    }
+    return 1;
 }
 

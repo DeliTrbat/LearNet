@@ -20,8 +20,6 @@ Server::Server(int port)
 
     if (listen(this->socketServer, 20) == -1)
         handle_error("[server]Error listen().\n");
-
-    //sqlite3_open("databaseServer.db", &db);
 }
 
 void Server::acceptClients()
@@ -88,7 +86,11 @@ void Server::executeClient(int client, char *command)
             }
             else if (strcmp(command, "searchFriend") == 0)
             {
-                searchFriend(client);
+                searchFriend(client, loggedin);
+            }
+            else if (strcmp(command, "Friends") == 0)
+            {
+                sendUserFriends(client, loggedin);
             }
             else if (strcmp(command, "quit") == 0)
                 break;
@@ -110,6 +112,15 @@ int Server::readBytes(int socket, void *buffer, unsigned int x)
         bytesRead += result;
     }
     return 1;
+}
+
+void Server::sendMsg(int client, char *str)
+{
+    int size = strlen(str);
+    if (write(client, &size, sizeof(int)) == -1)
+        handle_error("[server]Error writeBufferSize(int).\n");
+    if (write(client, str, size) == -1)
+        handle_error("[server]Error writeBufferSize(int).\n");
 }
 
 void Server::recvMsg(int client, char *str)

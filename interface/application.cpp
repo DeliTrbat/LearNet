@@ -29,6 +29,10 @@ void Application::showPage(int index)
 void Application::on_pushButton_logout_clicked()
 {
    emit logoutClicked();
+   ui->lineEdit_searchBar->clear();
+   delete layoutFriends;
+   layoutFriends = nullptr;
+
    this->client->sendBufferSize(6);
    this->client->sendBufferChar("logout");
 }
@@ -36,11 +40,30 @@ void Application::on_pushButton_logout_clicked()
 void Application::on_pushButton_friends_clicked()
 {
     showPage(1);
+    if( layoutFriends == nullptr)
+    {
+        layoutFriends = new QFormLayout(this);
+
+        this->client->sendBufferSize(7);
+        this->client->sendBufferChar("Friends");
+
+        int count = this->client->receiveBufferSize();
+        char str[32];
+        for(int i = 0 ;i < count;i++)
+        {
+            this->client->receiveBufferChar(str);
+            this->layoutFriends->addRow(new QLabel(str),new QPushButton("Message"));
+        }
+        QWidget *scrollContents = new QWidget(this);
+        scrollContents->setLayout(this->layoutFriends);
+        ui->scrollArea->setWidget(scrollContents);
+    }
 }
 
 void Application::on_pushButton_mainMenu_clicked()
 {
     showPage(0);
+    ui->lineEdit_searchBar->clear();
 }
 
 void Application::on_pushButton_addFriend_clicked()
@@ -56,11 +79,23 @@ void Application::on_pushButton_addFriend_clicked()
 
     int size = this->client->receiveBufferSize();
 
+    switch(size)
+    {
+    case -1: QMessageBox::warning(this,"searchFriend","User not found!");
+        break;
+    case 0: QMessageBox::warning(this,"searchFriend","User already in friend list!");
+        break;
+    case 1: QMessageBox::information(this,"searchFriend","Friend added");
+        this->layoutFriends->addRow(new QLabel(usr.data()),new QPushButton("Message"));
+        break;
+    case 2: QMessageBox::warning(this,"searchFriend","Why you want to add yourself as a friend?");
+        break;
+    default: break;
+    }
     if(size == 1)
     {
-        QMessageBox::information(this,"searchFriend","Friend added");
-        ui->stackedWidget->setCurrentIndex(1);
+        QWidget *scrollContents = new QWidget(this);
+        scrollContents->setLayout(this->layoutFriends);
+        ui->scrollArea->setWidget(scrollContents);
     }
-    else
-        QMessageBox::warning(this,"searchFriend","User not found");
 }

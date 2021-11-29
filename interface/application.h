@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QMessageBox>
 #include "client.h"
+#include <QFormLayout>
 
 namespace Ui {
 class Application;
@@ -33,6 +34,7 @@ signals:
 private:
     Ui::Application *ui;
     Client *client;
+    QFormLayout *layoutFriends = nullptr;
 };
 
 #endif // APPLICATION_H
