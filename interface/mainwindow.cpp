@@ -122,7 +122,19 @@ void MainWindow::on_pushButton_SignUp_clicked()
     {
         ui->lineEdit_username->clear();
         ui->lineEdit_password->clear();
-        QMessageBox::warning(this,"SignUp","You introduced incorrect credentials");
+        switch (correctCredentials)
+        {
+        case -1:
+        QMessageBox::warning(this,"SignUp","Some error ocurred try to reconnect to the server!");
+            break;
+        case -2:
+        QMessageBox::warning(this,"SignUp","You introduced incorrect credentials! The username has to start with a letter and contain only letters and digits and the password has to have atleast one digit, one special char and one upper and lower letter!");
+            break;
+        case -3: QMessageBox::warning(this,"SignUp","The username is already in use!");
+            break;
+        default:
+            break;
+        }
     }
     }
     else

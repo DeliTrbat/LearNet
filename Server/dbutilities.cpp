@@ -67,6 +67,38 @@ int db::searchInvCode(const char *path, const char *inviteCode)
     sqlite3_close(db);
     return -1;
 }
+int db::searchUsername(const char *path, const char *username)
+{
+    sqlite3 *db;
+    if (sqlite3_open(path, &db))
+    {
+        printf("Error sqlite3_open()");
+        return -1;
+    }
+    char sql[256];
+    sprintf(sql, "SELECT * FROM accounts WHERE username = \'%s\'", username);
+    sqlite3_stmt *selectstmt;
+    if (sqlite3_prepare_v2(db, sql, -1, &selectstmt, NULL) == SQLITE_OK)
+    {
+        if (sqlite3_step(selectstmt) == SQLITE_ROW)
+        {
+            // Found.
+            sqlite3_finalize(selectstmt);
+            sqlite3_close(db);
+            return -3;
+        }
+        else
+        {
+            // Not found.
+            sqlite3_finalize(selectstmt);
+            sqlite3_close(db);
+            return 1;
+        }
+    }
+    sqlite3_finalize(selectstmt);
+    sqlite3_close(db);
+    return -1;
+}
 int db::insertUsrAndPwd(const char *path, const char *username, const char *password)
 {
     sqlite3 *db;
@@ -144,7 +176,7 @@ int db::addFriend(const char *path, const char *username, int id1)
     sqlite3_close(db);
     return 1;
 }
-int db::countRows(const char *path, const char *tablename,int id)
+int db::countRows(const char *path, const char *tablename, int id)
 {
     sqlite3 *db;
     if (sqlite3_open(path, &db))
@@ -154,7 +186,7 @@ int db::countRows(const char *path, const char *tablename,int id)
     }
     char sql[256];
     sqlite3_stmt *insertstmt;
-    sprintf(sql,"SELECT count(*) FROM %s WHERE id1 = %d;",tablename,id);
+    sprintf(sql, "SELECT count(*) FROM %s WHERE id1 = %d;", tablename, id);
     sqlite3_prepare(db, sql, -1, &insertstmt, NULL); //preparing the statement
     sqlite3_step(insertstmt);
     int count = sqlite3_column_int(insertstmt, 0);

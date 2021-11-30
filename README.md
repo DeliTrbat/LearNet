@@ -4,8 +4,16 @@ Realizati un sistem cu arhitectura client/server care sa ajute la invatarea prin
 
 **TO DO:**
 
-**Add verification if username and password exists ( are not null or username has other chars than [a-zA-Z]) and if the username is not already in use \[server\]**
-
 **Add password encryption \[server\]**
+
+**Delete invite codes after usage**
+
+**Create user rankings to provide the ability to create invite codes for some of them**
+
+**Create chat dialogs with a chat schema in the database**
+
+**Create a page with courses (try to upgrade it with a search bar with auto-complete from the database)**
+
+**Edit the old accounts to respect the credentials restrictions**
 
 

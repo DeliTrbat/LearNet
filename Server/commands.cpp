@@ -1,5 +1,5 @@
 #include "server.h"
-
+#include <iostream>
 int Server::login(int client)
 {
     int found = -1;
@@ -32,10 +32,34 @@ int Server::signUp(int client)
         recvMsg(client, username);
         recvMsg(client, password);
         printf("Username: %s, Password: %s \n", username, password);
-        // Add verification if username and password exists ( are not null or username has other chars than [a-zA-Z]) and if the username is not already in use
-        found = db::insertUsrAndPwd(database, username, password);
-        if (write(client, &found, sizeof(int)) == -1)
-            handle_error("[server]Error sendBufferSize(int).\n");
+        found = db::searchUsername(database, username); // returns 1 if the user is not found, -1 for error, -3 if user already exists
+        if (found == 1)
+        {
+            std::string usr = username;
+            std::string pwd = password;
+            std::cout << usr << '\n';
+            std::regex usr_expr("^([A-Za-z]+[0-9]*)+$");
+            std::regex pwd_expr("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$");
+            std::cout << "User regex result: " << regex_match(usr.begin(), usr.end(), usr_expr) << " Password regex result: " << regex_match(pwd.begin(), pwd.end(), pwd_expr) << '\n';
+            if (regex_match(usr.begin(), usr.end(), usr_expr) == 0 || regex_match(pwd.begin(), pwd.end(), pwd_expr) == 0)
+            {
+                found = -2;
+                if (write(client, &found, sizeof(int)) == -1)
+                    handle_error("[server]Error sendBufferSize(int).\n");
+                return found;
+            }
+            else
+            {
+                found = db::insertUsrAndPwd(database, username, password);
+                if (write(client, &found, sizeof(int)) == -1)
+                    handle_error("[server]Error sendBufferSize(int).\n");
+            }
+        }
+        else
+        {
+            if (write(client, &found, sizeof(int)) == -1)
+                handle_error("[server]Error sendBufferSize(int).\n");
+        }
     }
     return found;
 }
@@ -54,8 +78,8 @@ void Server::searchFriend(int client, int id)
 void Server::sendUserFriends(int client, int id)
 {
     int count = 0;
-    count = db::countRows(database, "friends",id);
-    printf("Count: %d\n",count);
+    count = db::countRows(database, "friends", id);
+    printf("Count: %d\n", count);
     if (write(client, &count, sizeof(int)) == -1)
         handle_error("[server]Error sendBufferSize(int).\n");
     char str[32];

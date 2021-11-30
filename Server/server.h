@@ -12,6 +12,7 @@
 #include <wait.h>
 #include <sqlite3.h>
 #include <string>
+#include <regex>
 #include "dbutilities.h"
 
 extern int errno;
