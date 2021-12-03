@@ -94,7 +94,6 @@ void Server::sendUserFriends(int client, int id)
     sprintf(sql, "SELECT username FROM friends f JOIN accounts a ON f.id2 = a.id and f.id1 = %d;", id);
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) == SQLITE_OK)
     {
-        //will continue to go down the rows (columns in your table) till there are no more
         while (sqlite3_step(stmt) == SQLITE_ROW)
         {
             sprintf(str, "%s", sqlite3_column_text(stmt, 0));
@@ -103,4 +102,50 @@ void Server::sendUserFriends(int client, int id)
     }
     sqlite3_finalize(stmt);
     sqlite3_close(db);
+}
+
+void Server::createChat(int client, int id1)
+{
+    int finish = -1;
+    char username[32];
+    recvMsg(client, username);
+    int id2 = db::getUsrId(database, username); // returns id or -1 in case of error
+    if (id2 == -1)
+    {
+        if (write(client, &finish, sizeof(int)) == -1)
+            handle_error("[server]Error sendBufferSize(int).\n");
+        perror("[server]Error createChat()");
+        return;
+    }
+    char table_name[30];
+    if (db::createChatTable(database, id1, id2, table_name) == -1) // Create table if not exists
+    {
+        if (write(client, &finish, sizeof(int)) == -1)
+            handle_error("[server]Error sendBufferSize(int).\n");
+        perror("[server]Error createChat()");
+        return;
+    }
+    char message[1000];
+    sqlite3 *db;
+    if (sqlite3_open(database, &db))
+    {
+        perror("Error sqlite3_open()");
+        return;
+    }
+    sqlite3_stmt *stmt;
+    char sql[256];
+    sprintf(sql, "SELECT message FROM %s;", table_name);
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) == SQLITE_OK)
+    {
+        while (sqlite3_step(stmt) == SQLITE_ROW)
+        {
+            sprintf(message, "%s", sqlite3_column_text(stmt, 0));
+            sendMsg(client, message); // Send messages
+        }
+    }
+    sqlite3_finalize(stmt);
+    sqlite3_close(db);
+
+    if (write(client, &finish, sizeof(int)) == -1)
+        handle_error("[server]Error sendBufferSize(int).\n");
 }

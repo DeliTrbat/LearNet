@@ -35,6 +35,7 @@ public:
     int signUp(int client);
     void searchFriend(int client,int id);
     void sendUserFriends(int client,int id);
+    void createChat(int client, int id1);
 
     int readBytes(int,void*,unsigned int);
     void recvMsg(int client, char * str);

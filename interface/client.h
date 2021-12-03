@@ -21,7 +21,7 @@ public:
     bool sendBufferChar(char*);
 
     int receiveBufferSize();
-    void receiveBufferChar(char*);
+    int receiveBufferChar(char*);
     int readBytes(int,void*,unsigned int);
 
 private:

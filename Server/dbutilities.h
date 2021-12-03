@@ -12,5 +12,7 @@ namespace db
     int insertUsrAndPwd(const char *path,const char *username,const char *password);
     int addFriend(const char *path,const char *username,int id);
     int countRows(const char *path,const char* tablename,int id);
+    int createChatTable(const char *path,int id1,int id2, char* table_name);
+    int getUsrId(const char *path, const char *username);
 }
 #endif // SQL_H

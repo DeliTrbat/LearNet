@@ -63,18 +63,53 @@ void Application::on_pushButton_friends_clicked()
 }
 void Application::openChat(const char* str)
 {
-    if(strcmp(str,"Alin") == 0) //TO DO: Open chat window with name "Chat str" and send str to server to connect the chat window to the correct chat database (client id - str)
+    Chat * chat = new Chat(this);
+    chat->setClient(client);
+
+    QFormLayout* layoutChat = new QFormLayout(this);
+
+    this->client->sendBufferSize(4);
+    this->client->sendBufferChar("chat");
+
+    this->client->sendBufferSize(strlen(str));
+    this->client->sendBufferChar((char*)str);
+
+    char message[1000];
+    while(this->client->receiveBufferChar(message) != -1)
     {
-        QMessageBox::warning(this,"Chat","User Alin");
+        this->client->receiveBufferChar(message);
+        layoutChat->addRow(new QLabel(message));
     }
-    if(strcmp(str,"admin") == 0)
-    {
-        QMessageBox::warning(this,"Chat","User admin");
-    }
-    if(strcmp(str,"Gicu") == 0)
-    {
-        QMessageBox::warning(this,"Chat","User Gicu");
-    }
+    QWidget *scrollContents = new QWidget(this);
+    scrollContents->setLayout(layoutChat);
+    chat->setScrollContents(scrollContents);
+    chat->setWindowTitle(str);
+    chat->exec();
+
+    /*
+    QDialog * dialog = new QDialog(this); //my be you already have this
+    QScrollArea *scroll = new QScrollArea(dialog);
+    scroll->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    scroll->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+
+    QWidget *viewport = new QWidget(dialog);
+    scroll->setWidget(viewport);
+    scroll->setWidgetResizable(true);
+
+    QHBoxLayout *l = new QHBoxLayout(viewport);
+    viewport->setLayout(l);
+
+    // add needed widgets to layout "l"
+    for(int i = 0; i < 10; i++)
+        l->addWidget(new QPushButton());
+
+    // Add a layout for QDialog
+    QHBoxLayout *dialog_layout = new QHBoxLayout(dialog);
+    dialog->setLayout(dialog_layout);
+    dialog->layout()->addWidget(scroll); // add scroll to the QDialog's layout
+    dialog->setModal(true);
+    dialog->exec();
+    */
 }
 void Application::on_pushButton_mainMenu_clicked()
 {

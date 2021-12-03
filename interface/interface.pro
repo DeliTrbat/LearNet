@@ -17,17 +17,20 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     application.cpp \
+    chat.cpp \
     main.cpp \
     mainwindow.cpp \
     client.cpp
 
 HEADERS += \
     application.h \
+    chat.h \
     mainwindow.h \
     client.h
 
 FORMS += \
     application.ui \
+    chat.ui \
     mainwindow.ui
 
 # Default rules for deployment.

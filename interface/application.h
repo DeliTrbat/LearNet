@@ -5,6 +5,7 @@
 #include <QMessageBox>
 #include "client.h"
 #include <QFormLayout>
+#include "chat.h"
 
 namespace Ui {
 class Application;
@@ -13,7 +14,6 @@ class Application;
 class Application : public QWidget
 {
     Q_OBJECT
-
 public:
     explicit Application(QWidget *parent = nullptr);
     ~Application();

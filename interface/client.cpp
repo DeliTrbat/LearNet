@@ -46,14 +46,17 @@ int Client::receiveBufferSize()
     return size;
 }
 
-void Client::receiveBufferChar(char *str)
+int Client::receiveBufferChar(char *str)
 {
     int size = 0;
     if (read(this->socketClient, &size, sizeof(int)) == -1)
         handle_error("[client]Error readBufferSize(int).\n");
+    if(size == -1)
+        return -1;
     if (readBytes(this->socketClient, str, size) == -1)
         handle_error("[client]Error read().\n");
     str[size] = '\0';
+    return 1;
 }
 
 int Client::readBytes(int socket, void *buffer, unsigned int x)
