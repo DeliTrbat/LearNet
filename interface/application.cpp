@@ -22,6 +22,14 @@ void Application::setClient(Client *client)
 {
     this->client = client;
 }
+void Application::setUserId(int id)
+{
+    this->userId = id;
+}
+void Application::setUsername(char* username)
+{
+    strcpy(this->username,username);
+}
 void Application::showPage(int index)
 {
     ui->stackedWidget->setCurrentIndex(index);
@@ -34,7 +42,7 @@ void Application::on_pushButton_logout_clicked()
    layoutFriends = nullptr;
 
    this->client->sendBufferSize(6);
-   this->client->sendBufferChar("logout");
+   this->client->sendBufferChar((char*)"logout");
 }
 
 void Application::on_pushButton_friends_clicked()
@@ -45,7 +53,7 @@ void Application::on_pushButton_friends_clicked()
         layoutFriends = new QFormLayout(this);
 
         this->client->sendBufferSize(7);
-        this->client->sendBufferChar("Friends");
+        this->client->sendBufferChar((char*)"Friends");
 
         int count = this->client->receiveBufferSize();
         char str[32];
@@ -65,11 +73,12 @@ void Application::openChat(const char* str)
 {
     Chat * chat = new Chat(this);
     chat->setClient(client);
+    chat->setUserId(this->userId);
 
-    QFormLayout* layoutChat = new QFormLayout(this);
+    //QFormLayout* layoutChat = new QFormLayout(this);
 
     this->client->sendBufferSize(4);
-    this->client->sendBufferChar("chat");
+    this->client->sendBufferChar((char*)"chat");
 
     this->client->sendBufferSize(strlen(str));
     this->client->sendBufferChar((char*)str);
@@ -77,39 +86,18 @@ void Application::openChat(const char* str)
     char message[1000];
     while(this->client->receiveBufferChar(message) != -1)
     {
-        this->client->receiveBufferChar(message);
-        layoutChat->addRow(new QLabel(message));
+        int id = this->client->receiveBufferSize();
+        //QLabel *mess = new QLabel(message);
+        QListWidgetItem* item = new QListWidgetItem;
+        item->setText(QString::fromUtf8(const_cast<char *> (message)));
+        chat->setListItem(item,id);
+        //layoutChat->addRow(mess);
     }
-    QWidget *scrollContents = new QWidget(this);
-    scrollContents->setLayout(layoutChat);
-    chat->setScrollContents(scrollContents);
+    //QWidget *scrollContents = new QWidget(this);
+    //scrollContents->setLayout(layoutChat);
+    //chat->setScrollContents(scrollContents);
     chat->setWindowTitle(str);
     chat->exec();
-
-    /*
-    QDialog * dialog = new QDialog(this); //my be you already have this
-    QScrollArea *scroll = new QScrollArea(dialog);
-    scroll->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-    scroll->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-
-    QWidget *viewport = new QWidget(dialog);
-    scroll->setWidget(viewport);
-    scroll->setWidgetResizable(true);
-
-    QHBoxLayout *l = new QHBoxLayout(viewport);
-    viewport->setLayout(l);
-
-    // add needed widgets to layout "l"
-    for(int i = 0; i < 10; i++)
-        l->addWidget(new QPushButton());
-
-    // Add a layout for QDialog
-    QHBoxLayout *dialog_layout = new QHBoxLayout(dialog);
-    dialog->setLayout(dialog_layout);
-    dialog->layout()->addWidget(scroll); // add scroll to the QDialog's layout
-    dialog->setModal(true);
-    dialog->exec();
-    */
 }
 void Application::on_pushButton_mainMenu_clicked()
 {
@@ -123,7 +111,7 @@ void Application::on_pushButton_addFriend_clicked()
     QByteArray usr = username.toLocal8Bit();
 
     this->client->sendBufferSize(12);
-    this->client->sendBufferChar("searchFriend");
+    this->client->sendBufferChar((char*)"searchFriend");
 
     this->client->sendBufferSize(username.length());
     this->client->sendBufferChar(usr.data());

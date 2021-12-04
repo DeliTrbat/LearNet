@@ -20,14 +20,11 @@ private:
     Ui::MainWindow *ui;
     Application appMenu;
     Client *client;
-
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     void closeEvent (QCloseEvent *event);
     void setClient(Client*);
-
-
 
 private slots:
     void logout();

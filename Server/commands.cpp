@@ -134,13 +134,17 @@ void Server::createChat(int client, int id1)
     }
     sqlite3_stmt *stmt;
     char sql[256];
-    sprintf(sql, "SELECT message FROM %s;", table_name);
+    sprintf(sql, "SELECT id,message FROM %s;", table_name);
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) == SQLITE_OK)
     {
         while (sqlite3_step(stmt) == SQLITE_ROW)
         {
-            sprintf(message, "%s", sqlite3_column_text(stmt, 0));
+            sprintf(message, "%s", sqlite3_column_text(stmt, 1));
+            int id = sqlite3_column_int(stmt, 0);
+            printf("User: %d Sending message: %s\n", id, message);
             sendMsg(client, message); // Send messages
+            if (write(client, &id, sizeof(int)) == -1)
+                handle_error("[server]Error sendBufferSize(int).\n");
         }
     }
     sqlite3_finalize(stmt);

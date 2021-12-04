@@ -16,12 +16,25 @@ void Chat::setClient(Client *client)
 {
     this->client = client;
 }
-
+void Chat::setUserId(int id)
+{
+    this->userId = id;
+}
 void Chat::on_pushButton_send_clicked()
 {
 
 }
-void Chat::setScrollContents(QWidget * scrollContents)
+void Chat::setListItem( QListWidgetItem * item, int align)
 {
-    ui->scrollArea->setWidget(scrollContents);
+    ui->listWidgetChat->addItem( item );
+
+    if(align == this->userId)
+    {    item->setTextAlignment(Qt::AlignLeft);
+         item->setBackground(Qt::gray);
+    }
+    else
+    {
+        item->setTextAlignment(Qt::AlignRight);
+        item->setBackground(Qt::blue);
+    }
 }

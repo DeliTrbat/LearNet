@@ -6,6 +6,8 @@
 #include "client.h"
 #include <QFormLayout>
 #include "chat.h"
+#include <QListWidgetItem>
+#include <QListWidget>
 
 namespace Ui {
 class Application;
@@ -18,6 +20,8 @@ public:
     explicit Application(QWidget *parent = nullptr);
     ~Application();
     void setClient(Client*);
+    void setUserId(int);
+    void setUsername(char*);
 
 private slots:
     void showPage(int);
@@ -37,6 +41,8 @@ private:
     Ui::Application *ui;
     Client *client;
     QFormLayout *layoutFriends = nullptr;
+    char username[32];
+    int userId;
 };
 
 #endif // APPLICATION_H

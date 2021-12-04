@@ -3,6 +3,9 @@
 
 #include <QDialog>
 #include "client.h"
+#include <QString>
+#include <QListWidgetItem>
+#include <QListWidget>
 
 namespace Ui {
 class Chat;
@@ -16,13 +19,15 @@ public:
     explicit Chat(QWidget *parent = nullptr);
     ~Chat();
     void setClient(Client*);
-    void setScrollContents(QWidget * scrollContents);
+    void setUserId(int id);
+    void setListItem(QListWidgetItem* mess, int align);
 private slots:
     void on_pushButton_send_clicked();
 
 private:
     Ui::Chat *ui;
     Client *client;
+    int userId;
     //char* str;
 };
 

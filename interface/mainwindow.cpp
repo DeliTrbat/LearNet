@@ -37,7 +37,7 @@ void MainWindow::closeEvent (QCloseEvent *event)
         event->ignore();
     } else {
         this->client->sendBufferSize(4);
-        this->client->sendBufferChar("quit");
+        this->client->sendBufferChar((char*)"quit");
         event->accept();
     }
 }
@@ -59,7 +59,7 @@ void MainWindow::on_pushButton_Login_clicked()
     QByteArray pwd = password.toLocal8Bit();
 
     this->client->sendBufferSize(5);
-    this->client->sendBufferChar("login");
+    this->client->sendBufferChar((char*)"login");
 
     this->client->sendBufferSize(username.length());
     this->client->sendBufferChar(usr.data());
@@ -77,6 +77,9 @@ void MainWindow::on_pushButton_Login_clicked()
         ui->lineEdit_password->clear();
         ui->lineEdit_inviteCode->clear();
 
+        appMenu.setUsername(usr.data());
+        appMenu.setUserId(size);
+
         ui->stackedWidget->setCurrentIndex(1);
     }
     else
@@ -90,7 +93,7 @@ void MainWindow::on_pushButton_SignUp_clicked()
     QByteArray invCode = inviteCode.toLocal8Bit();
 
     this->client->sendBufferSize(6);
-    this->client->sendBufferChar("signUp");
+    this->client->sendBufferChar((char*)"signUp");
 
     this->client->sendBufferSize(inviteCode.length());
     this->client->sendBufferChar(invCode.data());
@@ -116,6 +119,10 @@ void MainWindow::on_pushButton_SignUp_clicked()
         ui->lineEdit_password->clear();
         ui->lineEdit_inviteCode->clear();
         QMessageBox::information(this,"SignUp","You have been succesfully registered");
+
+        appMenu.setUsername(usr.data());
+        appMenu.setUserId(correctCredentials);
+
         ui->stackedWidget->setCurrentIndex(1);
     }
     else
