@@ -104,7 +104,7 @@ void Server::sendUserFriends(int client, int id)
     sqlite3_close(db);
 }
 
-void Server::createChat(int client, int id1)
+void Server::createChatFriend(int client, int id1)
 {
     int finish = -1;
     char username[32];
@@ -117,6 +117,8 @@ void Server::createChat(int client, int id1)
         perror("[server]Error createChat()");
         return;
     }
+    if (write(client, &id2, sizeof(int)) == -1)
+        handle_error("[server]Error sendBufferSize(int).\n");
     char table_name[30];
     if (db::createChatTable(database, id1, id2, table_name) == -1) // Create table if not exists
     {
@@ -152,4 +154,57 @@ void Server::createChat(int client, int id1)
 
     if (write(client, &finish, sizeof(int)) == -1)
         handle_error("[server]Error sendBufferSize(int).\n");
+}
+void Server::insertMessageFriend(int client, int id1)
+{
+    int id2 = 0;
+    if (read(client, &id2, sizeof(int)) == -1)
+        handle_error("[server]Error readBufferSize(int).\n");
+    char message[1000];
+    recvMsg(client, message);
+    printf("Inserting message: %s\n", message);
+    char table_name[30];
+    if (id1 < id2)
+        sprintf(table_name, "u%du%d", id1, id2);
+    else
+        sprintf(table_name, "u%du%d", id2, id1);
+
+    int done = db::insertMessage(database, message, table_name, id1);
+    printf("Sending result to the client.\n");
+    if (write(client, &done, sizeof(int)) == -1)
+        handle_error("[server]Error sendBufferSize(int).\n");
+
+    if (done == -1)
+    {
+        handle_error("[server]Error db::insertMessage() iMF.\n");
+    }
+    else
+    {
+        sqlite3 *db;
+        if (sqlite3_open(database, &db))
+        {
+            perror("Error sqlite3_open()");
+            return;
+        }
+        sqlite3_stmt *stmt;
+        char sql[256];
+        sprintf(sql, "SELECT id,message FROM %s;", table_name);
+        if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) == SQLITE_OK)
+        {
+            while (sqlite3_step(stmt) == SQLITE_ROW)
+            {
+                sprintf(message, "%s", sqlite3_column_text(stmt, 1));
+                int id = sqlite3_column_int(stmt, 0);
+                printf("User: %d Sending message: %s\n", id, message);
+                sendMsg(client, message); // Send messages
+                if (write(client, &id, sizeof(int)) == -1)
+                    handle_error("[server]Error sendBufferSize(int).\n");
+            }
+        }
+        sqlite3_finalize(stmt);
+        sqlite3_close(db);
+        id2 = -1;
+        if (write(client, &id2, sizeof(int)) == -1)
+            handle_error("[server]Error sendBufferSize(int).\n");
+    }
 }

@@ -214,7 +214,7 @@ int db::createChatTable(const char *path, int id1, int id2, char *table_name)
         sprintf(table_name, "u%du%d", id2, id1);
     }
     printf("Creating table: %s\n",sql);
-    if (sqlite3_exec(db, sql, NULL, NULL, NULL) == SQLITE_OK) // preparing the statement
+    if (sqlite3_exec(db, sql, NULL, NULL, NULL) == SQLITE_OK)
     {
         printf("Table: %s was created\n", table_name);
     }
@@ -246,4 +246,26 @@ int db::getUsrId(const char *path, const char *username)
     sqlite3_finalize(selectstmt);
     sqlite3_close(db);
     return -1;
+}
+int db::insertMessage(const char *path, const char* message, const char* table_name, int id)
+{
+    sqlite3 *db;
+    if (sqlite3_open(path, &db))
+    {
+        perror("Error sqlite3_open()");
+        return -1;
+    }
+    char sql[1256];
+    sprintf(sql, "INSERT INTO %s VALUES (%d,\'%s\',CURRENT_TIMESTAMP)", table_name,id, message);
+    if (sqlite3_exec(db, sql, NULL, NULL, NULL) == SQLITE_OK)
+    {
+        printf("The message: %s was inserted in table %s\n",message, table_name);
+    }
+    else
+    {
+        sqlite3_close(db);
+        return 0;
+    }
+    sqlite3_close(db);
+    return 1;
 }

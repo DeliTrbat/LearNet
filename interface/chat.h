@@ -6,6 +6,8 @@
 #include <QString>
 #include <QListWidgetItem>
 #include <QListWidget>
+#include <QMessageBox>
+
 
 namespace Ui {
 class Chat;
@@ -20,7 +22,9 @@ public:
     ~Chat();
     void setClient(Client*);
     void setUserId(int id);
+    void setFriendId(int id);
     void setListItem(QListWidgetItem* mess, int align);
+    void receiveMessages();
 private slots:
     void on_pushButton_send_clicked();
 
@@ -28,7 +32,8 @@ private:
     Ui::Chat *ui;
     Client *client;
     int userId;
-    //char* str;
+    int friendId;
+    //char* friendUsername[32];
 };
 
 #endif // CHAT_H

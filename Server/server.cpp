@@ -92,9 +92,13 @@ void Server::executeClient(int client, char *command)
             {
                 sendUserFriends(client, loggedin);
             }
-            else if (strcmp(command, "chat") == 0)
+            else if (strcmp(command, "chatFriend") == 0)
             {
-                createChat(client, loggedin);
+                createChatFriend(client, loggedin);
+            }
+            else if (strcmp(command, "messageFriend") == 0)
+            {
+                insertMessageFriend(client,loggedin);
             }
             else if (strcmp(command, "quit") == 0)
                 break;

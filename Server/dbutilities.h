@@ -14,5 +14,6 @@ namespace db
     int countRows(const char *path,const char* tablename,int id);
     int createChatTable(const char *path,int id1,int id2, char* table_name);
     int getUsrId(const char *path, const char *username);
+    int insertMessage(const char *path, const char* message, const char* table_name, int id);
 }
 #endif // SQL_H

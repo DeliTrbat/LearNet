@@ -77,13 +77,15 @@ void Application::openChat(const char* str)
 
     //QFormLayout* layoutChat = new QFormLayout(this);
 
-    this->client->sendBufferSize(4);
-    this->client->sendBufferChar((char*)"chat");
+    this->client->sendBufferSize(10);
+    this->client->sendBufferChar((char*)"chatFriend");
 
     this->client->sendBufferSize(strlen(str));
     this->client->sendBufferChar((char*)str);
+    chat->setFriendId(this->client->receiveBufferSize());
 
-    char message[1000];
+    chat->receiveMessages();
+    /*char message[1000];
     while(this->client->receiveBufferChar(message) != -1)
     {
         int id = this->client->receiveBufferSize();
@@ -92,7 +94,8 @@ void Application::openChat(const char* str)
         item->setText(QString::fromUtf8(const_cast<char *> (message)));
         chat->setListItem(item,id);
         //layoutChat->addRow(mess);
-    }
+    }*/
+
     //QWidget *scrollContents = new QWidget(this);
     //scrollContents->setLayout(layoutChat);
     //chat->setScrollContents(scrollContents);
