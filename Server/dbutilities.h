@@ -3,9 +3,13 @@
 
 #include <sqlite3.h>
 #include <stdio.h>
+#include <string>
 
 namespace db
 {
+    int createTables(const char *path);
+    int deleteTables(const char *path);
+
     int searchUsrAndPwd(const char *path, const char *username, const char *password);
     int searchInvCode(const char *path, const char *inviteCode);
     int searchUsername(const char *path, const char *username);

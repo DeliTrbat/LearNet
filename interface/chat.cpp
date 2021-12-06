@@ -6,8 +6,9 @@ Chat::Chat(QWidget *parent) : QDialog(parent), ui(new Ui::Chat)
     ui->setupUi(this);
     ui->lineEdit_chat->setMaxLength(1000);
     ui->lineEdit_chat->setClearButtonEnabled(true);
+    //ui->listWidgetChat->setWordWrap(true);
+    //ui->listWidgetChat->setTextElideMode(Qt::ElideRight);
 }
-
 Chat::~Chat()
 {
     delete ui;
@@ -34,6 +35,7 @@ void Chat::receiveMessages()
         int id = this->client->receiveBufferSize();
         QListWidgetItem* item = new QListWidgetItem;
         item->setText(QString::fromUtf8(const_cast<char *> (message)));
+        //item->setSizeHint(QSize(10, 60));
         this->setListItem(item,id);
     }
 }
@@ -67,7 +69,6 @@ void Chat::on_pushButton_send_clicked()
 void Chat::setListItem( QListWidgetItem * item, int align)
 {
     ui->listWidgetChat->addItem( item );
-
     if(align == this->userId)
     {    item->setTextAlignment(Qt::AlignLeft);
          item->setBackground(Qt::gray);

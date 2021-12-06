@@ -107,27 +107,25 @@ void Server::sendUserFriends(int client, int id)
 void Server::createChatFriend(int client, int id1)
 {
     int finish = -1;
-    char username[32];
+    char username[32],table_name[30],message[1000];
     recvMsg(client, username);
     int id2 = db::getUsrId(database, username); // returns id or -1 in case of error
     if (id2 == -1)
     {
         if (write(client, &finish, sizeof(int)) == -1)
-            handle_error("[server]Error sendBufferSize(int).\n");
+            handle_error("[server]Error write().\n");
         perror("[server]Error createChat()");
         return;
     }
     if (write(client, &id2, sizeof(int)) == -1)
-        handle_error("[server]Error sendBufferSize(int).\n");
-    char table_name[30];
+        handle_error("[server]Error write().\n");
     if (db::createChatTable(database, id1, id2, table_name) == -1) // Create table if not exists
     {
         if (write(client, &finish, sizeof(int)) == -1)
-            handle_error("[server]Error sendBufferSize(int).\n");
+            handle_error("[server]Error write().\n");
         perror("[server]Error createChat()");
         return;
     }
-    char message[1000];
     sqlite3 *db;
     if (sqlite3_open(database, &db))
     {
@@ -146,14 +144,14 @@ void Server::createChatFriend(int client, int id1)
             printf("User: %d Sending message: %s\n", id, message);
             sendMsg(client, message); // Send messages
             if (write(client, &id, sizeof(int)) == -1)
-                handle_error("[server]Error sendBufferSize(int).\n");
+                handle_error("[server]Error write().\n");
         }
     }
     sqlite3_finalize(stmt);
     sqlite3_close(db);
 
     if (write(client, &finish, sizeof(int)) == -1)
-        handle_error("[server]Error sendBufferSize(int).\n");
+        handle_error("[server]Error write().\n");
 }
 void Server::insertMessageFriend(int client, int id1)
 {

@@ -16,4 +16,6 @@ Realizati un sistem cu arhitectura client/server care sa ajute la invatarea prin
 
 **Edit the old accounts to respect the credentials restrictions**
 
+**Add chats on different themes**
 
+**Figure out how to update the chat every second**

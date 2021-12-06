@@ -20,6 +20,8 @@ Server::Server(int port)
 
     if (listen(this->socketServer, 20) == -1)
         handle_error("[server]Error listen().\n");
+
+    db::createTables(database);
 }
 
 void Server::acceptClients()
@@ -63,6 +65,11 @@ void Server::executeClient(int client, char *command)
             close(client);
             break;
         }
+        if(strlen(command) == 0)
+        {    
+            printf("Error client closed unexpectedly!\n");
+            break;
+        }
         printf("Command: %s, size: %d \n", command, size);
         if (loggedin < 0)
         {
@@ -98,13 +105,14 @@ void Server::executeClient(int client, char *command)
             }
             else if (strcmp(command, "messageFriend") == 0)
             {
-                insertMessageFriend(client,loggedin);
+                insertMessageFriend(client, loggedin);
             }
             else if (strcmp(command, "quit") == 0)
                 break;
         }
     }
     close(client);
+    printf("Process %d closed.\n", getpid());
     exit(1);
 }
 

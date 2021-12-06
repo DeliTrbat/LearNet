@@ -25,6 +25,7 @@ public:
     void setFriendId(int id);
     void setListItem(QListWidgetItem* mess, int align);
     void receiveMessages();
+
 private slots:
     void on_pushButton_send_clicked();
 

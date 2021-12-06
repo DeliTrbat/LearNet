@@ -1,5 +1,89 @@
 #include "dbutilities.h"
 
+int db::createTables(const char *path)
+{
+    sqlite3 *db;
+    if (sqlite3_open(path, &db))
+    {
+        fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
+        return -1;
+    }
+    char *errorMsg;
+    std::string sql = "CREATE TABLE IF NOT EXISTS accounts (id INT UNIQUE, username VARCHAR(32) PRIMARY KEY, password VARCHAR(64) NOT NULL, rank VARCHAR(16) NOT NULL DEFAULT 'Member');";
+
+    if (sqlite3_exec(db, sql.c_str(), NULL, NULL, &errorMsg) != SQLITE_OK)
+    {
+        fprintf(stderr, "SQL error createTables(): %s\n", errorMsg);
+        sqlite3_free(errorMsg);
+        sqlite3_close(db);
+        return -1;
+    }
+
+    sql = "CREATE TABLE IF NOT EXISTS invitecodes (id INT UNIQUE, code VARCHAR(32) NOT NULL, FOREIGN KEY(id) REFERENCES accounts(id) ON UPDATE CASCADE ON DELETE CASCADE);";
+
+    if (sqlite3_exec(db, sql.c_str(), NULL, NULL, &errorMsg) != SQLITE_OK)
+    {
+        fprintf(stderr, "SQL error createTables(): %s\n", errorMsg);
+        sqlite3_free(errorMsg);
+        sqlite3_close(db);
+        return -1;
+    }
+
+    sql = "CREATE TABLE IF NOT EXISTS friends (id1 INT NOT NULL, id2 INT NOT NULL, FOREIGN KEY(id1) REFERENCES accounts(id) ON UPDATE CASCADE ON DELETE CASCADE);";
+
+    if (sqlite3_exec(db, sql.c_str(), NULL, NULL, &errorMsg) != SQLITE_OK)
+    {
+        fprintf(stderr, "SQL error createTables(): %s\n", errorMsg);
+        sqlite3_free(errorMsg);
+        sqlite3_close(db);
+        return -1;
+    }
+
+    sqlite3_close(db);
+    return 1;
+}
+int db::deleteTables(const char *path)
+{
+    sqlite3 *db;
+    if (sqlite3_open(path, &db))
+    {
+        fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
+        return -1;
+    }
+    char *errorMsg;
+    std::string sql = "DROP TABLE IF EXISTS accounts;";
+
+    if (sqlite3_exec(db, sql.c_str(), NULL, NULL, &errorMsg) != SQLITE_OK)
+    {
+        fprintf(stderr, "SQL error createTables(): %s\n", errorMsg);
+        sqlite3_free(errorMsg);
+        sqlite3_close(db);
+        return -1;
+    }
+
+    sql = "DROP TABLE IF EXISTS invitecodes;";
+
+    if (sqlite3_exec(db, sql.c_str(), NULL, NULL, &errorMsg) != SQLITE_OK)
+    {
+        fprintf(stderr, "SQL error createTables(): %s\n", errorMsg);
+        sqlite3_free(errorMsg);
+        sqlite3_close(db);
+        return -1;
+    }
+
+    sql = "DROP TABLE IF EXISTS friends;";
+
+    if (sqlite3_exec(db, sql.c_str(), NULL, NULL, &errorMsg) != SQLITE_OK)
+    {
+        fprintf(stderr, "SQL error createTables(): %s\n", errorMsg);
+        sqlite3_free(errorMsg);
+        sqlite3_close(db);
+        return -1;
+    }
+    sqlite3_close(db);
+    return 1;
+}
+
 int db::searchUsrAndPwd(const char *path, const char *username, const char *password)
 {
     sqlite3 *db;
@@ -113,12 +197,20 @@ int db::insertUsrAndPwd(const char *path, const char *username, const char *pass
     sqlite3_step(insertstmt);
     int id = sqlite3_column_int(insertstmt, 0) + 1;
     sqlite3_finalize(insertstmt);
-    sprintf(sql, "INSERT INTO accounts VALUES (%d,\'%s\',\'%s\')", id, username, password);
+    sprintf(sql, "INSERT INTO accounts (id, username, password) VALUES (%d,\'%s\',\'%s\')", id, username, password);
     printf("Command: %s\n", sql);
 
-    sqlite3_prepare_v2(db, sql, -1, &insertstmt, NULL); //preparing the statement
-    sqlite3_step(insertstmt);
-    sqlite3_finalize(insertstmt);
+    char *errorMsg;
+    if (sqlite3_exec(db, sql, NULL, NULL, &errorMsg) != SQLITE_OK)
+    {
+        fprintf(stderr, "SQL error insertUsrAndPwd(): %s\n", errorMsg);
+        sqlite3_free(errorMsg);
+        sqlite3_close(db);
+        return -1;
+    }
+    //sqlite3_prepare_v2(db, sql, -1, &insertstmt, NULL); //preparing the statement
+    //sqlite3_step(insertstmt);
+    //sqlite3_finalize(insertstmt);
     sqlite3_close(db);
     return id;
 }
@@ -213,7 +305,7 @@ int db::createChatTable(const char *path, int id1, int id2, char *table_name)
         sprintf(sql, "CREATE TABLE IF NOT EXISTS u%du%d (id int, message varchar(1000), timestamp datetime);", id2, id1);
         sprintf(table_name, "u%du%d", id2, id1);
     }
-    printf("Creating table: %s\n",sql);
+    printf("Creating table: %s\n", sql);
     if (sqlite3_exec(db, sql, NULL, NULL, NULL) == SQLITE_OK)
     {
         printf("Table: %s was created\n", table_name);
@@ -247,7 +339,7 @@ int db::getUsrId(const char *path, const char *username)
     sqlite3_close(db);
     return -1;
 }
-int db::insertMessage(const char *path, const char* message, const char* table_name, int id)
+int db::insertMessage(const char *path, const char *message, const char *table_name, int id)
 {
     sqlite3 *db;
     if (sqlite3_open(path, &db))
@@ -256,10 +348,10 @@ int db::insertMessage(const char *path, const char* message, const char* table_n
         return -1;
     }
     char sql[1256];
-    sprintf(sql, "INSERT INTO %s VALUES (%d,\'%s\',CURRENT_TIMESTAMP)", table_name,id, message);
+    sprintf(sql, "INSERT INTO %s VALUES (%d,\'%s\',CURRENT_TIMESTAMP)", table_name, id, message);
     if (sqlite3_exec(db, sql, NULL, NULL, NULL) == SQLITE_OK)
     {
-        printf("The message: %s was inserted in table %s\n",message, table_name);
+        printf("The message: %s was inserted in table %s\n", message, table_name);
     }
     else
     {
