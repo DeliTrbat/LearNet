@@ -6,16 +6,20 @@ Realizati un sistem cu arhitectura client/server care sa ajute la invatarea prin
 
 **Add password encryption \[server\]**
 
-**Delete invite codes after usage**
-
-**Create user rankings to provide the ability to create invite codes for some of them**
-
-**Create chat dialogs with a chat schema in the database**
+**Delete invite codes after usage and add 7 days timer to generate a new one**
 
 **Create a page with courses (try to upgrade it with a search bar with auto-complete from the database)**
-
-**Edit the old accounts to respect the credentials restrictions**
 
 **Add chats on different themes**
 
 **Figure out how to update the chat every second**
+
+**Add the option to delete friends**
+
+**Send friend requests instead of adding people without their consent**
+
+**Edit error handlers to exit only when needed** 
+
+**Move read/send functions globally to make db namespace function better**
+
+**Check what you can do about errors when sending chars like '**

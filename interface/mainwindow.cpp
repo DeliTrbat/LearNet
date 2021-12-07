@@ -4,6 +4,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 {
     ui->setupUi(this);
     setWindowTitle("LearNet");
+    ui->statusbar->hide();
 
     // Placeholder text
     ui->lineEdit_username->setPlaceholderText("Username");

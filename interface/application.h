@@ -34,6 +34,8 @@ private slots:
 
     void openChat(const char*);
 
+    void on_pushButton_GenInvCode_clicked();
+
 signals:
     void logoutClicked();
 

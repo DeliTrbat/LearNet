@@ -4,6 +4,8 @@
 #include <sqlite3.h>
 #include <stdio.h>
 #include <string>
+#include <iostream>
+#include <string.h>
 
 namespace db
 {
@@ -19,5 +21,8 @@ namespace db
     int createChatTable(const char *path,int id1,int id2, char* table_name);
     int getUsrId(const char *path, const char *username);
     int insertMessage(const char *path, const char* message, const char* table_name, int id);
+    int checkRank(const char *path, int id);
+    int saveInvCode(const char *path, int id, const char * invitecode);
+    int alreadyGenInvCode(const char *path, int id,char * invitecode);
 }
 #endif // SQL_H

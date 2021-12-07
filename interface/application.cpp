@@ -12,6 +12,10 @@ Application::Application(QWidget *parent) : QWidget(parent), ui(new Ui::Applicat
 
     // Set Maximum size
     ui->lineEdit_searchBar->setMaxLength(32);
+
+    ui->textEdit_code->setReadOnly(true);
+    ui->textEdit_code->setAlignment(Qt::AlignCenter);
+    ui->textEdit_code->hide();
 }
 
 Application::~Application()
@@ -40,6 +44,9 @@ void Application::on_pushButton_logout_clicked()
    ui->lineEdit_searchBar->clear();
    delete layoutFriends;
    layoutFriends = nullptr;
+
+   ui->textEdit_code->clear();
+   ui->textEdit_code->hide();
 
    this->client->sendBufferSize(6);
    this->client->sendBufferChar((char*)"logout");
@@ -142,5 +149,25 @@ void Application::on_pushButton_addFriend_clicked()
         QWidget *scrollContents = new QWidget(this);
         scrollContents->setLayout(this->layoutFriends);
         ui->scrollArea->setWidget(scrollContents);
+    }
+}
+
+
+void Application::on_pushButton_GenInvCode_clicked()
+{
+    this->client->sendBufferSize(15);
+    this->client->sendBufferChar((char*)"generateInvCode");
+
+    char invitecode[32];
+
+    if(this->client->receiveBufferChar(invitecode) > 0)
+    {
+        ui->textEdit_code->setText(invitecode);
+        ui->textEdit_code->setAlignment(Qt::AlignCenter);
+        ui->textEdit_code->show();
+    }
+    else
+    {
+        QMessageBox::warning(this,"Permission denied","You need a bigger rank to be able to generate invite codes!");
     }
 }

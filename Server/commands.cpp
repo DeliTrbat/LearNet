@@ -64,6 +64,37 @@ int Server::signUp(int client)
     return found;
 }
 
+void Server::generateInvCode(int client, int id)
+{
+    int permission = db::checkRank(database, id); // returns -1 on error rank permissions on success 0 - Member < 1 - Member2 < 2 - Owner
+    if (permission > 0)
+    {
+        char invitecode[32];
+        if (db::alreadyGenInvCode(database, id, invitecode) == 1)
+        {
+            sendMsg(client, invitecode); // send it to client
+        }
+        else
+        {
+            strcpy(invitecode, "invitecodegenerated");               // generate random invitecode
+            int success = db::saveInvCode(database, id, invitecode); // save it in database
+            if (success == 1)
+                sendMsg(client, invitecode); // send it to client
+            else
+            {
+                if (write(client, &success, sizeof(int)) == -1) // signal error in saveInvCode
+                    handle_error("[server]Error write().\n");
+            }
+        }
+    }
+    else
+    {
+        permission = -1;
+        if (write(client, &permission, sizeof(int)) == -1) // signal error or no permision
+            handle_error("[server]Error write().\n");
+    }
+}
+
 void Server::searchFriend(int client, int id)
 {
     int found = -1;
@@ -107,7 +138,7 @@ void Server::sendUserFriends(int client, int id)
 void Server::createChatFriend(int client, int id1)
 {
     int finish = -1;
-    char username[32],table_name[30],message[1000];
+    char username[32], table_name[30], message[1000];
     recvMsg(client, username);
     int id2 = db::getUsrId(database, username); // returns id or -1 in case of error
     if (id2 == -1)

@@ -65,8 +65,8 @@ void Server::executeClient(int client, char *command)
             close(client);
             break;
         }
-        if(strlen(command) == 0)
-        {    
+        if (strlen(command) == 0)
+        {
             printf("Error client closed unexpectedly!\n");
             break;
         }
@@ -109,6 +109,10 @@ void Server::executeClient(int client, char *command)
             }
             else if (strcmp(command, "quit") == 0)
                 break;
+            else if (strcmp(command, "generateInvCode") == 0)
+            {
+                generateInvCode(client,loggedin);
+            }
         }
     }
     close(client);

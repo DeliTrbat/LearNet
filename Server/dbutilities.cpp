@@ -208,9 +208,6 @@ int db::insertUsrAndPwd(const char *path, const char *username, const char *pass
         sqlite3_close(db);
         return -1;
     }
-    //sqlite3_prepare_v2(db, sql, -1, &insertstmt, NULL); //preparing the statement
-    //sqlite3_step(insertstmt);
-    //sqlite3_finalize(insertstmt);
     sqlite3_close(db);
     return id;
 }
@@ -360,4 +357,108 @@ int db::insertMessage(const char *path, const char *message, const char *table_n
     }
     sqlite3_close(db);
     return 1;
+}
+int db::checkRank(const char *path, int id)
+{
+    sqlite3 *db;
+    if (sqlite3_open(path, &db))
+    {
+        perror("Error sqlite3_open()");
+        return -1;
+    }
+    std::string sql = "SELECT rank FROM accounts WHERE id=" + std::to_string(id) + ";";
+    std::cout << sql << '\n';
+
+    sqlite3_stmt *selectstmt;
+    if (sqlite3_prepare_v2(db, sql.c_str(), -1, &selectstmt, NULL) == SQLITE_OK)
+    {
+        if (sqlite3_step(selectstmt) == SQLITE_ROW)
+        {
+            char str[16];
+            sprintf(str, "%s", sqlite3_column_text(selectstmt, 0));
+            if (strcmp(str, "Member") == 0)
+            {
+                sqlite3_finalize(selectstmt);
+                sqlite3_close(db);
+                return 0;
+            }
+            else if (strcmp(str, "Member2") == 0)
+            {
+                sqlite3_finalize(selectstmt);
+                sqlite3_close(db);
+                return 1;
+            }
+            else if (strcmp(str, "Owner") == 0)
+            {
+                sqlite3_finalize(selectstmt);
+                sqlite3_close(db);
+                return 2;
+            }
+            sqlite3_finalize(selectstmt);
+        }
+    }
+    else
+    {
+        fprintf(stderr, "Error while creating select statement: %s\n", sqlite3_errmsg(db));
+        sqlite3_finalize(selectstmt);
+        sqlite3_close(db);
+        return -1;
+    }
+    sqlite3_close(db);
+    return -1;
+}
+int db::saveInvCode(const char *path, int id, const char *invitecode)
+{
+    sqlite3 *db;
+    if (sqlite3_open(path, &db))
+    {
+        perror("Error sqlite3_open()");
+        return -1;
+    }
+    char *errorMsg;
+    std::string sql = "INSERT INTO invitecodes VALUES( " + std::to_string(id) + ",'" + invitecode + "');";
+    std::cout << sql << '\n';
+
+    if (sqlite3_exec(db, sql.c_str(), NULL, NULL, &errorMsg) != SQLITE_OK)
+    {
+        fprintf(stderr, "SQL error createTables(): %s\n", errorMsg);
+        sqlite3_free(errorMsg);
+        sqlite3_close(db);
+        return -1;
+    }
+
+    sqlite3_close(db);
+    return 1;
+}
+int db::alreadyGenInvCode(const char *path, int id, char *invitecode)
+{
+    sqlite3 *db;
+    if (sqlite3_open(path, &db))
+    {
+        perror("Error sqlite3_open()");
+        return -1;
+    }
+    std::string sql = "SELECT code FROM invitecodes WHERE id=" + std::to_string(id) + ";";
+    std::cout << sql << '\n';
+
+    sqlite3_stmt *selectstmt;
+    if (sqlite3_prepare_v2(db, sql.c_str(), -1, &selectstmt, NULL) == SQLITE_OK)
+    {
+        if (sqlite3_step(selectstmt) == SQLITE_ROW)
+        {
+            sprintf(invitecode, "%s", sqlite3_column_text(selectstmt, 0));
+            sqlite3_finalize(selectstmt);
+            sqlite3_close(db);
+            return 1;
+        }
+    }
+    else
+    {
+        fprintf(stderr, "Error while creating select statement: %s\n", sqlite3_errmsg(db));
+        sqlite3_finalize(selectstmt);
+        sqlite3_close(db);
+        return -1;
+    }
+    sqlite3_close(db);
+    return -1;
 }
