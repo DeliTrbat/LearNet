@@ -6,13 +6,11 @@ Realizati un sistem cu arhitectura client/server care sa ajute la invatarea prin
 
 **Add password encryption \[server\]**
 
-**Delete invite codes after usage and add 7 days timer to generate a new one**
+**Delete invite codes after use and add 7 days timer to generate a new one**
 
 **Create a page with courses (try to upgrade it with a search bar with auto-complete from the database)**
 
 **Add chats on different themes**
-
-**Figure out how to update the chat every second**
 
 **Add the option to delete friends**
 

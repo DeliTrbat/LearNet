@@ -38,6 +38,9 @@ public:
     void createChatFriend(int client, int id1);
     void insertMessageFriend(int client,int id1);
     void generateInvCode(int client,int id);
+    void updateChat(int client,int id1);
+    void sendData(int client);
+    
 
     int readBytes(int,void*,unsigned int);
     void recvMsg(int client, char * str);

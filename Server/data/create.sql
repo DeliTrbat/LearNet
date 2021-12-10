@@ -12,3 +12,4 @@ INSERT INTO invitecodes VALUES (1,'invitecode2');
 INSERT INTO invitecodes VALUES (2,'invitecode3');
 INSERT INTO invitecodes VALUES (3,'invitecode4');
 INSERT INTO invitecodes VALUES (4,'invitecode5');
+

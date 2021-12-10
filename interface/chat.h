@@ -7,7 +7,8 @@
 #include <QListWidgetItem>
 #include <QListWidget>
 #include <QMessageBox>
-
+#include <QTimer>
+#include <QDebug>
 
 namespace Ui {
 class Chat;
@@ -27,6 +28,7 @@ public:
     void receiveMessages();
 
 private slots:
+    void updateChat();
     void on_pushButton_send_clicked();
 
 private:
@@ -34,6 +36,7 @@ private:
     Client *client;
     int userId;
     int friendId;
+    QTimer *timer;
     //char* friendUsername[32];
 };
 

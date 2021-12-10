@@ -8,6 +8,9 @@ Chat::Chat(QWidget *parent) : QDialog(parent), ui(new Ui::Chat)
     ui->lineEdit_chat->setClearButtonEnabled(true);
     //ui->listWidgetChat->setWordWrap(true);
     //ui->listWidgetChat->setTextElideMode(Qt::ElideRight);
+    timer = new QTimer(this);
+    connect(timer,SIGNAL(timeout()),this,SLOT(updateChat()));
+    timer->start(2500);
 }
 Chat::~Chat()
 {
@@ -38,6 +41,16 @@ void Chat::receiveMessages()
         //item->setSizeHint(QSize(10, 60));
         this->setListItem(item,id);
     }
+}
+void Chat::updateChat()
+{
+    qDebug() << "Chat updated.";
+    this->client->sendBufferSize(10);
+    this->client->sendBufferChar((char*)"updateChat");
+
+    this->client->sendBufferSize(this->friendId);
+
+    receiveMessages();
 }
 void Chat::on_pushButton_send_clicked()
 {

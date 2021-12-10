@@ -82,8 +82,6 @@ void Application::openChat(const char* str)
     chat->setClient(client);
     chat->setUserId(this->userId);
 
-    //QFormLayout* layoutChat = new QFormLayout(this);
-
     this->client->sendBufferSize(10);
     this->client->sendBufferChar((char*)"chatFriend");
 
@@ -92,20 +90,6 @@ void Application::openChat(const char* str)
     chat->setFriendId(this->client->receiveBufferSize());
 
     chat->receiveMessages();
-    /*char message[1000];
-    while(this->client->receiveBufferChar(message) != -1)
-    {
-        int id = this->client->receiveBufferSize();
-        //QLabel *mess = new QLabel(message);
-        QListWidgetItem* item = new QListWidgetItem;
-        item->setText(QString::fromUtf8(const_cast<char *> (message)));
-        chat->setListItem(item,id);
-        //layoutChat->addRow(mess);
-    }*/
-
-    //QWidget *scrollContents = new QWidget(this);
-    //scrollContents->setLayout(layoutChat);
-    //chat->setScrollContents(scrollContents);
     chat->setWindowTitle(str);
     chat->exec();
 }
@@ -169,5 +153,20 @@ void Application::on_pushButton_GenInvCode_clicked()
     else
     {
         QMessageBox::warning(this,"Permission denied","You need a bigger rank to be able to generate invite codes!");
+    }
+}
+
+void Application::on_pushButton_clicked()
+{
+    this->client->sendBufferSize(7);
+    this->client->sendBufferChar((char*)"courses");
+
+    this->client->sendBufferSize(1);
+    char data[50000];
+
+    if(this->client->receiveBufferChar(data) > 0)
+    {
+        ui->textEdit_data->setText(data);
+        ui->textEdit_data->setAlignment(Qt::AlignCenter);
     }
 }

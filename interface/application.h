@@ -36,6 +36,8 @@ private slots:
 
     void on_pushButton_GenInvCode_clicked();
 
+    void on_pushButton_clicked();
+
 signals:
     void logoutClicked();
 

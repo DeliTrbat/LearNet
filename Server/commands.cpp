@@ -237,3 +237,68 @@ void Server::insertMessageFriend(int client, int id1)
             handle_error("[server]Error sendBufferSize(int).\n");
     }
 }
+void Server::updateChat(int client, int id1)
+{
+    int id2 = 0;
+    if (read(client, &id2, sizeof(int)) == -1) // Receive id friend
+        handle_error("[server]Error readBufferSize(int).\n");
+    char table_name[30];
+    if (id1 < id2) // Generate chat table name
+        sprintf(table_name, "u%du%d", id1, id2); 
+    else
+        sprintf(table_name, "u%du%d", id2, id1);
+    sqlite3 *db;
+    if (sqlite3_open(database, &db))
+    {
+        perror("Error sqlite3_open()");
+        return;
+    }
+    sqlite3_stmt *stmt;
+    char sql[256];
+    char message[1000];
+    sprintf(sql, "SELECT id,message FROM %s;", table_name);
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) == SQLITE_OK)
+    {
+        while (sqlite3_step(stmt) == SQLITE_ROW)
+        {
+            sprintf(message, "%s", sqlite3_column_text(stmt, 1));
+            int id = sqlite3_column_int(stmt, 0);
+            printf("User: %d Sending message: %s\n", id, message);
+            sendMsg(client, message); // Send messages
+            if (write(client, &id, sizeof(int)) == -1)
+                handle_error("[server]Error sendBufferSize(int).\n");
+        }
+    }
+    sqlite3_finalize(stmt);
+    sqlite3_close(db);
+    id2 = -1;
+    if (write(client, &id2, sizeof(int)) == -1)
+        handle_error("[server]Error sendBufferSize(int).\n");
+}
+void Server::sendData(int client)
+{
+    int course = 0;
+    if (read(client, &course, sizeof(int)) == -1)
+        handle_error("[server]Error readBufferSize(int).\n");
+    sqlite3 *db;
+    if (sqlite3_open(database, &db))
+    {
+        perror("Error sqlite3_open()");
+        return;
+    }
+    sqlite3_stmt *stmt;
+    char sql[256];
+    sprintf(sql, "SELECT * FROM courses where no = %d;", course);
+    char data[50000];
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) == SQLITE_OK)
+    {
+        if (sqlite3_step(stmt) == SQLITE_ROW)
+        {
+            sprintf(data, "%s", sqlite3_column_text(stmt, 1));
+            printf("User: %d Sending message: %s\n", course, data);
+            sendMsg(client, data); // Send messages
+        }
+    }
+    sqlite3_finalize(stmt);
+    sqlite3_close(db);
+}

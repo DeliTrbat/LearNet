@@ -1,4 +1,6 @@
-Network Architecture
+CREATE TABLE IF NOT EXISTS courses (no INT NOT NULL, data VARCHAR(50000));
+
+INSERT INTO courses VALUES (1,'Network Architecture
 
 Content
 
@@ -83,4 +85,6 @@ through good boundary levels => Levels can be modified and
 implemented independently
 - Each level offers services for superior level (using services from
 previous levels)
-- “peer” levels of different systems communicate via a protocol
+- “peer” levels of different systems communicate via a protocol');
+
+INSERT INTO courses VALUES (2,' ');

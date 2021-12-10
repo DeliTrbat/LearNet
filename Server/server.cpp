@@ -107,12 +107,20 @@ void Server::executeClient(int client, char *command)
             {
                 insertMessageFriend(client, loggedin);
             }
-            else if (strcmp(command, "quit") == 0)
-                break;
             else if (strcmp(command, "generateInvCode") == 0)
             {
-                generateInvCode(client,loggedin);
+                generateInvCode(client, loggedin);
             }
+            else if (strcmp(command, "courses") == 0)
+            {
+                sendData(client);
+            }
+            else if (strcmp(command, "updateChat") == 0)
+            {
+                updateChat(client,loggedin);
+            }
+            else if (strcmp(command, "quit") == 0)
+                break;
         }
     }
     close(client);
