@@ -1,86 +1,107 @@
-Network Architecture
+Concepts and fundamental notions
 
 Content
+• Concepts
+• Definitions
+• Computer networks – necessity and use
+• Classification
+• Topologies
+• Components
 
-Structure of Computer Networks
-- Network Architecture Models (OSI,TCP/IP)
-- TCP/IP Model
-- ISO/OSI versus TCP/IP
+Concepts
+• Information: anything that can be represented using bits 
+• Resource: generic term that can signify data, equipment et. al.
+• Package: a way of storing data
+• Link: a connection among network members
+• Node: a computer from the network which has an address
+• Protocol: rules used to communicate
+• Communication: information exchanges between network nodes
 
-Computers Networks Structure
+A protocol defines the format and the order of messages 
+exchanged betweentwo or more communicating entities, 
+as well as the actions taken on the transmissionand/or 
+receipt of a message or other event.
 
-Computer Network Structure - stack levels
+Definitions:
+– Interconnected collection of autonomous computers
+– A network may be defined recursively as two or more 
+nodes physically connected, as well as two or several 
+networks connected through one or more nodes.
+• Aspects:
+– Hardware: connect computers from a physical point of view
+– Software: Protocols – specify services provided by the network
 
-Functionality:
+Necessity:
+• Resource sharing (physical, data)
+• Reliability
+• Reduced costs
+• Impact in real life:
+– Remote information access
+– Interactive entertainment
+– E-Commerce
 
-- Interface: ensure communication between two
-consecutive levels
-- Service: functionality provided by a level
-Result: reducing design complexity
+Networks types- classification
 
-The principle of communication: transmitter sends at n
-level what the recipient receives at the n level
+• After the spatial arrangement:
+    – PAN (Personal Area Network)
+    – LAN (Local Area Network) 
+    – MAN (Metropolitan Area Network)
+    – WAN (Wide Area Network)
+    – Internet
 
-- Protocol - Rules and conventions through which the
-communication takes place
+• Depending on transmission technology:
+– Broadcast networks (one channel to 
+communicate)
+    • broadcast, multicast
+– Point-to-point networks
+    • unicast
 
-Aspects regarding levels designs
+Network topologies
 
-Services types
-- Connection-oriented
-- Communication requires a connection
-- Similar to a telephone service
-- Connectionless
-- Communication does not require a connection
-- Similar to postal service
+Physical topology: the way computers are connected in 
+the network
+Logical topology: the way in which data are transferd from 
+one computer to other
+Possible physical topologies for:
+– Broadcast networks - LAN
+    • Bus
+    • Ring
+– Point-to-point networks
+    • Star
+    • Ring
+    • Tree
+    • Mesh
 
-Network architecture: the set of levels and protocols
-- Architecture specification must provide sufficient
-information for programs or equipment intended, in
-order to offer the specific protocols
-- Protocols stack: list of protocols (on all levels) used by a
-particular system
+Networks types- classification
 
-Each level must identify transmitters & receivers
-through an addressing mechanism
-- Data transfer rules identification
-- simplex communication
-- Example: TV
-- half-duplex communication
-- Example: "walkie-talkie"
-- full-duplex communication
-- Example: telephone
+• Depending on the hardware technology (and 
+software) used for interconnection:
+–Networks using wired transmission medium
+–Networks using wireless transmission medium
 
-In general, communication channels do not preserve the order
-of the sent messages => need for a protocol that provides a
-mechanism to reconstruct the correct messages order
-- Sometimes the receiver cannot manage the variable length
-messages => it must be a mechanism to divide/assemble
-- High costs in the allocation of separate connections? =>
-Multiplexing - use the same connection for independent
-conversations
-- In general, there are several ways between source and
-destination => routing mechanism
-- Physical communication circuits are not perfect => it asks for an
-error control mechanism
+• Depending on the components:
 
-Reference models for network architecture
-- ISO/OSI (International Standard Organization/ Open
-System Interconnection)
-- TCP/IP (Transmission Control Protocol/ Internet
-Protocol)
+– Homogeneous: the computer networks use 
+similar configurations and protocols
+• Example: A network using Microsoft Windows via TCP/IP
+– Heterogeneous: the network contains different 
+types of computers, operating systems and/or 
+different protocols
+• Example: a LAN that connects a smart phone with an 
+Android and an Apple Machintosh computer
 
-OSI Model- motivation
+Components
 
-The need for a different level of abstraction => to create a new level
-- Obs. The number of levels must be optimal, therefore each
-level has different functions and the whole architecture is
-functional
-- A level has a clear role; a level function must take into account
-protocols that are standardized at international level
-- Minimizing the flow of information between levels is accomplished
-through good boundary levels => Levels can be modified and
-implemented independently
-- Each level offers services for superior level (using services from
-previous levels)
-- “peer” levels of different systems communicate via a protocol
+• Host - it’s a computational system connected to the Internet
+• Hub Network - a device (often a signal 
+booster) used to connect multiple 
+devices => network segment
+• Switch - a device which filters network 
+packets and resends them
+• Router - device providing connectivity between networks, perform routing 
+packets between these networks
+• Bridge - device that connects two LANs or two segments of the same LAN
+• Gateway - is a connection point of two networks that use different base 
+protocols
+• Repeater - device that receives signals that it rebroadcast at a higher level 
+or higher power, so that the signal can cover large areas without degrading its quality

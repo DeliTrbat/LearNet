@@ -14,6 +14,7 @@ Application::Application(QWidget *parent) : QWidget(parent), ui(new Ui::Applicat
     ui->lineEdit_searchBar->setMaxLength(32);
 
     ui->textEdit_code->setReadOnly(true);
+    ui->textEdit_data->setReadOnly(true);
     ui->textEdit_code->setAlignment(Qt::AlignCenter);
     ui->textEdit_code->hide();
 }
