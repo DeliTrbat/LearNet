@@ -162,7 +162,7 @@ void Application::on_pushButton_clicked()
     this->client->sendBufferSize(7);
     this->client->sendBufferChar((char*)"courses");
 
-    this->client->sendBufferSize(1);
+    this->client->sendBufferSize(2);
     char data[50000];
 
     if(this->client->receiveBufferChar(data) > 0)

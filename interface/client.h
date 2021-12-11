@@ -22,7 +22,7 @@ public:
 
     int receiveBufferSize();
     int receiveBufferChar(char*);
-    int readBytes(int,void*,unsigned int);
+    int readBytes(int,char*,unsigned int);
 
 private:
     int socketClient;

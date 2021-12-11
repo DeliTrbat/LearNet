@@ -283,6 +283,30 @@ int db::countRows(const char *path, const char *tablename, int id)
     sqlite3_close(db);
     return count;
 }
+int db::sendFriendsNames(const char *path, int id, int socket)
+{
+    char str[32];
+    sqlite3 *db;
+    if (sqlite3_open(path, &db))
+    {
+        perror("Error sqlite3_open()");
+        return -1;
+    }
+    sqlite3_stmt *stmt;
+    char sql[256];
+    sprintf(sql, "SELECT username FROM friends f JOIN accounts a ON f.id2 = a.id and f.id1 = %d;", id);
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) == SQLITE_OK)
+    {
+        while (sqlite3_step(stmt) == SQLITE_ROW)
+        {
+            sprintf(str, "%s", sqlite3_column_text(stmt, 0));
+            sendMsg(socket, str);
+        }
+    }
+    sqlite3_finalize(stmt);
+    sqlite3_close(db);
+    return 1;
+}
 int db::createChatTable(const char *path, int id1, int id2, char *table_name)
 {
     sqlite3 *db;
@@ -308,6 +332,36 @@ int db::createChatTable(const char *path, int id1, int id2, char *table_name)
         printf("Table: %s was created\n", table_name);
     }
     sqlite3_close(db);
+    return 1;
+}
+int db::sendChatMessages(const char *path, const char *table_name, int socket)
+{
+    sqlite3 *db;
+    if (sqlite3_open(path, &db))
+    {
+        perror("Error sqlite3_open()");
+        return -1;
+    }
+    sqlite3_stmt *stmt;
+    char sql[256], message[1000];
+    sprintf(sql, "SELECT id,message FROM %s;", table_name);
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) == SQLITE_OK)
+    {
+        while (sqlite3_step(stmt) == SQLITE_ROW)
+        {
+            sprintf(message, "%s", sqlite3_column_text(stmt, 1));
+            int id = sqlite3_column_int(stmt, 0);
+            printf("User: %d Sending message: %s\n", id, message);
+            sendMsg(socket, message); // Send messages
+            if (write(socket, &id, sizeof(int)) == -1)
+                handle_error("[server]Error sendBufferSize(int).\n");
+        }
+    }
+    sqlite3_finalize(stmt);
+    sqlite3_close(db);
+    int signalFinish = -1;
+    if (write(socket, &signalFinish, sizeof(int)) == -1)
+        handle_error("[server]Error sendBufferSize(int).\n");
     return 1;
 }
 int db::getUsrId(const char *path, const char *username)

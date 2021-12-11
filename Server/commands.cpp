@@ -1,5 +1,4 @@
 #include "server.h"
-#include <iostream>
 int Server::login(int client)
 {
     int found = -1;
@@ -109,36 +108,20 @@ void Server::searchFriend(int client, int id)
 void Server::sendUserFriends(int client, int id)
 {
     int count = 0;
-    count = db::countRows(database, "friends", id);
+    count = db::countRows(database, "friends", id); // Count the number of friends
     printf("Count: %d\n", count);
     if (write(client, &count, sizeof(int)) == -1)
         handle_error("[server]Error sendBufferSize(int).\n");
-    char str[32];
-    sqlite3 *db;
-    if (sqlite3_open(database, &db))
+    if (db::sendFriendsNames(database, id, client) == -1)
     {
-        perror("Error sqlite3_open()");
-        return;
+        // Send message to client that something went wrong
     }
-    sqlite3_stmt *stmt;
-    char sql[256];
-    sprintf(sql, "SELECT username FROM friends f JOIN accounts a ON f.id2 = a.id and f.id1 = %d;", id);
-    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) == SQLITE_OK)
-    {
-        while (sqlite3_step(stmt) == SQLITE_ROW)
-        {
-            sprintf(str, "%s", sqlite3_column_text(stmt, 0));
-            sendMsg(client, str);
-        }
-    }
-    sqlite3_finalize(stmt);
-    sqlite3_close(db);
 }
 
 void Server::createChatFriend(int client, int id1)
 {
     int finish = -1;
-    char username[32], table_name[30], message[1000];
+    char username[32], table_name[30];
     recvMsg(client, username);
     int id2 = db::getUsrId(database, username); // returns id or -1 in case of error
     if (id2 == -1)
@@ -157,32 +140,10 @@ void Server::createChatFriend(int client, int id1)
         perror("[server]Error createChat()");
         return;
     }
-    sqlite3 *db;
-    if (sqlite3_open(database, &db))
+    if (db::sendChatMessages(database, table_name, client) == -1)
     {
-        perror("Error sqlite3_open()");
-        return;
+        // Send message to client that something went wrong
     }
-    sqlite3_stmt *stmt;
-    char sql[256];
-    sprintf(sql, "SELECT id,message FROM %s;", table_name);
-    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) == SQLITE_OK)
-    {
-        while (sqlite3_step(stmt) == SQLITE_ROW)
-        {
-            sprintf(message, "%s", sqlite3_column_text(stmt, 1));
-            int id = sqlite3_column_int(stmt, 0);
-            printf("User: %d Sending message: %s\n", id, message);
-            sendMsg(client, message); // Send messages
-            if (write(client, &id, sizeof(int)) == -1)
-                handle_error("[server]Error write().\n");
-        }
-    }
-    sqlite3_finalize(stmt);
-    sqlite3_close(db);
-
-    if (write(client, &finish, sizeof(int)) == -1)
-        handle_error("[server]Error write().\n");
 }
 void Server::insertMessageFriend(int client, int id1)
 {
@@ -209,32 +170,10 @@ void Server::insertMessageFriend(int client, int id1)
     }
     else
     {
-        sqlite3 *db;
-        if (sqlite3_open(database, &db))
+        if (db::sendChatMessages(database, table_name, client) == -1)
         {
-            perror("Error sqlite3_open()");
-            return;
+            // Send message to client that something went wrong
         }
-        sqlite3_stmt *stmt;
-        char sql[256];
-        sprintf(sql, "SELECT id,message FROM %s;", table_name);
-        if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) == SQLITE_OK)
-        {
-            while (sqlite3_step(stmt) == SQLITE_ROW)
-            {
-                sprintf(message, "%s", sqlite3_column_text(stmt, 1));
-                int id = sqlite3_column_int(stmt, 0);
-                printf("User: %d Sending message: %s\n", id, message);
-                sendMsg(client, message); // Send messages
-                if (write(client, &id, sizeof(int)) == -1)
-                    handle_error("[server]Error sendBufferSize(int).\n");
-            }
-        }
-        sqlite3_finalize(stmt);
-        sqlite3_close(db);
-        id2 = -1;
-        if (write(client, &id2, sizeof(int)) == -1)
-            handle_error("[server]Error sendBufferSize(int).\n");
     }
 }
 void Server::updateChat(int client, int id1)
@@ -244,7 +183,7 @@ void Server::updateChat(int client, int id1)
         handle_error("[server]Error readBufferSize(int).\n");
     char table_name[30];
     if (id1 < id2) // Generate chat table name
-        sprintf(table_name, "u%du%d", id1, id2); 
+        sprintf(table_name, "u%du%d", id1, id2);
     else
         sprintf(table_name, "u%du%d", id2, id1);
     sqlite3 *db;

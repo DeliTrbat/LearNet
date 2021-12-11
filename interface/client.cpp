@@ -59,9 +59,9 @@ int Client::receiveBufferChar(char *str)
     return 1;
 }
 
-int Client::readBytes(int socket, void *buffer, unsigned int x)
+int Client::readBytes(int socket, char *buffer, unsigned int x)
 {
-    int bytesRead = 0;
+    unsigned int bytesRead = 0;
     int result;
     while (bytesRead < x)
     {

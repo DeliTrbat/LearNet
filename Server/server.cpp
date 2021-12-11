@@ -127,39 +127,3 @@ void Server::executeClient(int client, char *command)
     printf("Process %d closed.\n", getpid());
     exit(1);
 }
-
-int Server::readBytes(int socket, void *buffer, unsigned int x)
-{
-    int bytesRead = 0;
-    int result;
-    while (bytesRead < x)
-    {
-        result = read(socket, buffer + bytesRead, x - bytesRead);
-        if (result < 1)
-            return -1;
-        bytesRead += result;
-    }
-    return 1;
-}
-
-void Server::sendMsg(int client, char *str)
-{
-    int size = strlen(str);
-    if (write(client, &size, sizeof(int)) == -1)
-        handle_error("[server]Error writeBufferSize(int).\n");
-    if (write(client, str, size) == -1)
-        handle_error("[server]Error writeBufferSize(int).\n");
-}
-
-void Server::recvMsg(int client, char *str)
-{
-    int size = 0;
-    if (read(client, &size, sizeof(int)) == -1)
-        handle_error("[server]Error readBufferSize(int).\n");
-    if (readBytes(client, str, size) == -1)
-    {
-        perror("[server]Error read().\n");
-        close(client);
-    }
-    str[size] = '\0';
-}

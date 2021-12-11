@@ -11,6 +11,7 @@ Chat::Chat(QWidget *parent) : QDialog(parent), ui(new Ui::Chat)
     timer = new QTimer(this);
     connect(timer,SIGNAL(timeout()),this,SLOT(updateChat()));
     timer->start(2500);
+    this->setAttribute(Qt::WA_DeleteOnClose);
 }
 Chat::~Chat()
 {
