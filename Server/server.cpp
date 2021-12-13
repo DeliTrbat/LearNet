@@ -107,6 +107,22 @@ void Server::executeClient(int client, char *command)
             {
                 insertMessageFriend(client, loggedin);
             }
+            else if (strcmp(command, "updateChat") == 0)
+            {
+                updateChat(client, loggedin);
+            }
+            else if (strcmp(command, "allChat") == 0)
+            {
+                allChat(client,loggedin);
+            }
+            else if (strcmp(command, "messageAllChat") == 0)
+            {
+                insertMessageAllChat(client,loggedin);
+            }
+            // else if (strcmp(command, "updateAllChat") == 0)
+            // {
+            //     updateAllChat(client,loggedin);
+            // }
             else if (strcmp(command, "generateInvCode") == 0)
             {
                 generateInvCode(client, loggedin);
@@ -114,10 +130,6 @@ void Server::executeClient(int client, char *command)
             else if (strcmp(command, "courses") == 0)
             {
                 sendData(client);
-            }
-            else if (strcmp(command, "updateChat") == 0)
-            {
-                updateChat(client,loggedin);
             }
             else if (strcmp(command, "quit") == 0)
                 break;

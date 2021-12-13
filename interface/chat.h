@@ -24,6 +24,7 @@ public:
     void setClient(Client*);
     void setUserId(int id);
     void setFriendId(int id);
+    void setTheme(char* theme);
     void setListItem(QListWidgetItem* mess, int align);
     void receiveMessages();
 
@@ -35,7 +36,8 @@ private:
     Ui::Chat *ui;
     Client *client;
     int userId;
-    int friendId;
+    int friendId = -1;
+    char* theme;
     QTimer *timer;
     //char* friendUsername[32];
 };

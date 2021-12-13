@@ -17,10 +17,16 @@ protected:
     int signUp(int client);
     void searchFriend(int client, int id);
     void sendUserFriends(int client, int id);
+    void generateInvCode(int client, int id);
+
     void createChatFriend(int client, int id1);
     void insertMessageFriend(int client, int id1);
-    void generateInvCode(int client, int id);
     void updateChat(int client, int id1);
+
+    void allChat(int client,int id);
+    void insertMessageAllChat(int client,int id);
+    //void updateAllChat(int client,int id);
+
     void sendData(int client);
 
 private:

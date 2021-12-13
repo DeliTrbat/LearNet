@@ -171,3 +171,21 @@ void Application::on_pushButton_clicked()
         ui->textEdit_data->setAlignment(Qt::AlignCenter);
     }
 }
+
+void Application::on_pushButton_chats_clicked()
+{
+     Chat * chat = new Chat(this);
+     chat->setClient(client);
+     chat->setUserId(this->userId);
+     QByteArray theme = ui->comboBox_chats->currentText().toLocal8Bit();
+     chat->setTheme(theme.data());
+
+     this->client->sendBufferSize(7);
+     this->client->sendBufferChar((char*)"allChat");
+
+     this->client->sendBufferSize(strlen(theme.data()));
+     this->client->sendBufferChar(theme.data());
+     chat->receiveMessages();
+     chat->setWindowTitle(ui->comboBox_chats->currentText());
+     chat->exec();
+}

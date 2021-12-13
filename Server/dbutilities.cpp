@@ -18,7 +18,6 @@ int db::createTables(const char *path)
         sqlite3_close(db);
         return -1;
     }
-
     sql = "CREATE TABLE IF NOT EXISTS invitecodes (id INT UNIQUE, code VARCHAR(32) NOT NULL, FOREIGN KEY(id) REFERENCES accounts(id) ON UPDATE CASCADE ON DELETE CASCADE);";
 
     if (sqlite3_exec(db, sql.c_str(), NULL, NULL, &errorMsg) != SQLITE_OK)
@@ -30,6 +29,16 @@ int db::createTables(const char *path)
     }
 
     sql = "CREATE TABLE IF NOT EXISTS friends (id1 INT NOT NULL, id2 INT NOT NULL, FOREIGN KEY(id1) REFERENCES accounts(id) ON UPDATE CASCADE ON DELETE CASCADE);";
+
+    if (sqlite3_exec(db, sql.c_str(), NULL, NULL, &errorMsg) != SQLITE_OK)
+    {
+        fprintf(stderr, "SQL error createTables(): %s\n", errorMsg);
+        sqlite3_free(errorMsg);
+        sqlite3_close(db);
+        return -1;
+    }
+
+    sql = "CREATE TABLE IF NOT EXISTS chats (theme VARCHAR(16) NOT NULL,id INT NOT NULL,username VARCHAR(32) NOT NULL DEFAULT 'Deleted',rank VARCHAR(16) NOT NULL DEFAULT 'Member', message VARCHAR(1052), FOREIGN KEY(id,username) REFERENCES accounts(id,username) ON UPDATE CASCADE ON DELETE SET DEFAULT);";
 
     if (sqlite3_exec(db, sql.c_str(), NULL, NULL, &errorMsg) != SQLITE_OK)
     {
@@ -80,6 +89,17 @@ int db::deleteTables(const char *path)
         sqlite3_close(db);
         return -1;
     }
+
+    sql = "DROP TABLE IF EXISTS chats;";
+
+    if (sqlite3_exec(db, sql.c_str(), NULL, NULL, &errorMsg) != SQLITE_OK)
+    {
+        fprintf(stderr, "SQL error createTables(): %s\n", errorMsg);
+        sqlite3_free(errorMsg);
+        sqlite3_close(db);
+        return -1;
+    }
+
     sqlite3_close(db);
     return 1;
 }
@@ -515,4 +535,73 @@ int db::alreadyGenInvCode(const char *path, int id, char *invitecode)
     }
     sqlite3_close(db);
     return -1;
+}
+int db::sendAllChatMessages(const char *path, const char *theme, int id, int socket)
+{
+    sqlite3 *db;
+    if (sqlite3_open(path, &db))
+    {
+        perror("Error sqlite3_open()");
+        return -1;
+    }
+    sqlite3_stmt *stmt;
+    char sql[256], message[1052];
+    sprintf(sql, "SELECT * FROM chats where theme = '%s';", theme);
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) == SQLITE_OK)
+    {
+        while (sqlite3_step(stmt) == SQLITE_ROW)
+        {
+            int idMsg = sqlite3_column_int(stmt, 1);
+            if (idMsg != id)
+            {
+                sprintf(message, "%s %s: %s", sqlite3_column_text(stmt, 3), sqlite3_column_text(stmt, 2), sqlite3_column_text(stmt, 4));
+            }
+            else
+            {
+                sprintf(message, "Me: %s",sqlite3_column_text(stmt, 4));
+            }
+            printf("Sending message: %s\n", message);
+            sendMsg(socket, message); // Send messages
+            if (write(socket, &idMsg, sizeof(int)) == -1)
+                handle_error("[server]Error sendBufferSize(int).\n");
+        }
+    }
+    sqlite3_finalize(stmt);
+    sqlite3_close(db);
+    int signalFinish = -1;
+    if (write(socket, &signalFinish, sizeof(int)) == -1)
+        handle_error("[server]Error sendBufferSize(int).\n");
+    return 1;
+}
+int db::insertAllChatMessage(const char *path,const char *theme, const char *message, int id)
+{
+    sqlite3 *db;
+    if (sqlite3_open(path, &db))
+    {
+        perror("Error sqlite3_open()");
+        return -1;
+    }
+    char sql[1320];
+    sprintf(sql,"SELECT username,rank FROM accounts where id =%d;", id);
+    sqlite3_stmt *stmt;
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) == SQLITE_OK)
+    {
+        if (sqlite3_step(stmt) == SQLITE_ROW)
+        {
+            sprintf(sql, "INSERT INTO chats VALUES (\'%s\',%d,\'%s\',\'%s\',\'%s\');", theme, id,sqlite3_column_text(stmt, 0),sqlite3_column_text(stmt, 1),message);
+            printf("Command: %s\n", sql);
+            sqlite3_finalize(stmt);
+        }
+    }
+    if (sqlite3_exec(db, sql, NULL, NULL, NULL) == SQLITE_OK)
+    {
+        printf("The message: %s was inserted.\n", message);
+    }
+    else
+    {
+        sqlite3_close(db);
+        return 0;
+    }
+    sqlite3_close(db);
+    return 1;
 }

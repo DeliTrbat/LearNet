@@ -186,33 +186,11 @@ void Server::updateChat(int client, int id1)
         sprintf(table_name, "u%du%d", id1, id2);
     else
         sprintf(table_name, "u%du%d", id2, id1);
-    sqlite3 *db;
-    if (sqlite3_open(database, &db))
+
+    if (db::sendChatMessages(database, table_name, client) == -1)
     {
-        perror("Error sqlite3_open()");
-        return;
+        // Send message to client that something went wrong
     }
-    sqlite3_stmt *stmt;
-    char sql[256];
-    char message[1000];
-    sprintf(sql, "SELECT id,message FROM %s;", table_name);
-    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) == SQLITE_OK)
-    {
-        while (sqlite3_step(stmt) == SQLITE_ROW)
-        {
-            sprintf(message, "%s", sqlite3_column_text(stmt, 1));
-            int id = sqlite3_column_int(stmt, 0);
-            printf("User: %d Sending message: %s\n", id, message);
-            sendMsg(client, message); // Send messages
-            if (write(client, &id, sizeof(int)) == -1)
-                handle_error("[server]Error sendBufferSize(int).\n");
-        }
-    }
-    sqlite3_finalize(stmt);
-    sqlite3_close(db);
-    id2 = -1;
-    if (write(client, &id2, sizeof(int)) == -1)
-        handle_error("[server]Error sendBufferSize(int).\n");
 }
 void Server::sendData(int client)
 {
@@ -240,4 +218,42 @@ void Server::sendData(int client)
     }
     sqlite3_finalize(stmt);
     sqlite3_close(db);
+}
+
+void Server::allChat(int client, int id)
+{
+    char theme[16];
+    recvMsg(client, theme);
+    printf("AllChat on theme: %s\n", theme);
+    if (db::sendAllChatMessages(database, theme, id, client) == -1)
+    {
+        // Send message to client that something went wrong
+    }
+}
+void Server::insertMessageAllChat(int client, int id)
+{
+    char theme[16];
+    recvMsg(client, theme);
+    printf("AllChat on theme: %s\n", theme);
+
+    char message[1052]; // 1000 message + 16 rank + 32 username
+    recvMsg(client, message);
+    printf("Inserting message: %s\n", message);
+
+    int done = db::insertAllChatMessage(database, theme, message, id);
+    printf("Sending result to the client.\n");
+    if (write(client, &done, sizeof(int)) == -1)
+        handle_error("[server]Error sendBufferSize(int).\n");
+
+    if (done == -1)
+    {
+        handle_error("[server]Error db::insertMessage() iMF.\n");
+    }
+    else
+    {
+        if (db::sendAllChatMessages(database, theme, id, client) == -1)
+        {
+            // Send message to client that something went wrong
+        }
+    }
 }
