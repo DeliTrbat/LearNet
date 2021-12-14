@@ -1,6 +1,6 @@
-CREATE TABLE IF NOT EXISTS courses (no INT NOT NULL, data VARCHAR(50000));
+CREATE TABLE IF NOT EXISTS data (type VARCHAR(64) PRIMARY KEY , data VARCHAR(15000));
 
-INSERT INTO courses VALUES (1,'Concepts and fundamental notions
+INSERT INTO data VALUES ('Fundamental notions','Concepts and fundamental notions
 
 Content
 • Concepts
@@ -108,15 +108,7 @@ protocols
 • Repeater - device that receives signals that it rebroadcast at a higher level 
 or higher power, so that the signal can cover large areas without degrading its quality');
 
-INSERT INTO courses VALUES (2,'Network Architecture
-
-Content
-• Structure of Computer Networks 
-• Network Architecture Models (OSI, TCP/IP)
-• TCP/IP Model
-• ISO/OSI versus TCP/IP
-
-Computers Networks Structure
+INSERT INTO data VALUES ('Computers Networks Structure','Computers Networks Structure
 
 • Computer Network Structure – stack levels
 
@@ -130,9 +122,9 @@ Result: reducing design complexity
 -The principle of communication: transmitter sends at n 
 level what the recipient receives at the n level 
 • Protocol – Rules and conventions through which the 
-communication takes place
+communication takes place');
 
-Aspects regarding levels design
+INSERT INTO data VALUES ('Aspects regarding levels design','Aspects regarding levels design
 
 • Specifying the service is performed by a set of primitives 
 (operations) available to the one who uses the service
@@ -176,25 +168,23 @@ conversations
 • In general, there are several ways between source and 
 destination => routing mechanism
 • Physical communication circuits are not perfect => it asks for an 
-error control mechanism
+error control mechanism');
 
-Reference models for network architecture
+INSERT INTO data VALUES ('Network architecture models','Network architecture models
 • ISO/OSI (International Standard Organization/ Open 
 System Interconnection)
 • TCP/IP (Transmission Control Protocol/ Internet 
-Protocol)
+Protocol)');
 
-Network Architecture - Equipment
+INSERT INTO data VALUES ('Devices and appropriate levels','Devices and appropriate levels:
 
-• Devices and appropriate levels:
+• Application layer - Application gateway
+• Transport layer - Transport gateway
+• Network layer - Router
+• Data link layer - Bridge, Switch
+• Physical layer - Repeater, Hub');
 
-Application layer - Application gateway
-Transport layer - Transport gateway
-Network layer - Router
-Data link layer - Bridge, Switch
-Physical layer - Repeater, Hub
-
-OSI Model- motivation
+INSERT INTO data VALUES ('OSI Model- motivation','OSI Model- motivation
 • The need for a different level of abstraction => to create a new level
 • Obs. The number of levels must be optimal, therefore each 
 level has different functions and the whole architecture is functional
@@ -204,17 +194,18 @@ protocols that are standardized at international level
 through good boundary levels => Levels can be modified and 
 implemented independently
 • Each level offers services for superior level (using services from previous levels)
-• “peer” levels of different systems communicate via a protocol
+• “peer” levels of different systems communicate via a protocol');
 
-OSI Model – structure
+INSERT INTO data VALUES ('OSI Model – structure','OSI Model – structure
 • Physical Level
 • Data Link Level
 • Network Level
 • Transport Level
 • Session Level
 • Presentation Level
-• Application Level
+• Application Level');
 
+INSERT INTO data VALUES ('OSI Model - Physical Level','OSI Model - Physical Level
 Physical Level: data transmission medium
 Role: ensure that the sequence of bits transmitted from 
 the transmitter reaches the receiver
@@ -260,8 +251,9 @@ Offers transportation services, on which we can identify a number of possible pr
 – Data can be altered / destroyed due to the noise
 – If the destination cannot process the data in the right time, some will be lost
 – If the same transmission medium is used by multiple transmitters, packages may alter each other
-– It is less expensive to build logical connections to share the same physical medium, than create independent physical links
+– It is less expensive to build logical connections to share the same physical medium, than create independent physical links');
 
+INSERT INTO data VALUES ('OSI Model - Data Link Level','OSI Model - Data Link Level
 • Data Link Level:
 
 Offers:
@@ -348,8 +340,9 @@ a/b/g/n/ac      |
     – Improve safety and performance transmission
     – Can provide flow control and congestion data
     – Retransmission is done via static routes or using a spanning tree
-        STP (IEEE 802.1D) – Spanning Tree Protocol
-
+        STP (IEEE 802.1D) – Spanning Tree Protocol');
+        
+INSERT INTO data VALUES ('OSI Model - Network Level','OSI Model - Network Level
 • Network Level:
     – Retrieves packages from the source and transfer them to the destination
     – It provides services to transport level
@@ -373,8 +366,9 @@ a/b/g/n/ac      |
 • Protocol conversions and addresses
 • Error control (flow, congestion)
 • Dividing and recomposing packages
-• Security – encryption, firewall
+• Security – encryption, firewall');
 
+INSERT INTO data VALUES ('OSI Model - Transport level','OSI Model - Transport level
 • Transport level: it offers safe and cost-effective data transport from the source machine to the 
 destination machine, independent of physical network or networks currently in use
     Services: provides connection-oriented and connectionless services
@@ -387,18 +381,21 @@ destination machine, independent of physical network or networks currently in us
     • DISCONNECT – connection release
 
 – Performance - quality of service (QoS - Quality of Service): establishing /releasing the connection, error rate, protection, 
-priority, resilience (the probability that a connection shut down because various internal reasons), duplicate packets, flow control.
+priority, resilience (the probability that a connection shut down because various internal reasons), duplicate packets, flow control.');
 
-• Session level: refers to problems linked to session settings (dialogue control services, synchronisation etc.)
+INSERT INTO data VALUES ('OSI Model - Session level','OSI Model - Session level
+• Session level: refers to problems linked to session settings (dialogue control services, synchronisation etc.)');
 
+INSERT INTO data VALUES ('OSI Model - Presentation level','OSI Model - Presentation level
 • Presentation level: handle data presentation, codified them into standard format
     – To ensure communication among computers with different representations, the presentation level 
-      ensures the conversion of internal data in standardized network representation and vice versa
+      ensures the conversion of internal data in standardized network representation and vice versa');
 
+INSERT INTO data VALUES ('OSI Model - Application level','OSI Model - Application level
 • Application level: manage network services: virtual terminal, file transfer, 
-electronic mail, remote execution of applications, ...
+electronic mail, remote execution of applications, ...');
 
-        TCP/IP Model
+INSERT INTO data VALUES ('TCP/IP Model','TCP/IP Model
 
 • Terms:
     – end-system – host
@@ -410,8 +407,9 @@ electronic mail, remote execution of applications, ...
 • It provides the ability to interconnect multiple network types
 • Network and Transport levels are the kernel of this model
 • Successfully implemented over Ethernet (IEEE 802.3) -supported by many 
-implementations of the physical layer (coaxial cable, twisted pair, fiber optic)
+implementations of the physical layer (coaxial cable, twisted pair, fiber optic)');
 
+INSERT INTO data VALUES ('TCP/IP Model - “Physical” level','TCP/IP Model - “Physical” level
 • “Physical” level
 – Ensure the connection between host and the network 
 
@@ -426,7 +424,7 @@ implementations of the physical layer (coaxial cable, twisted pair, fiber optic)
             - PREAMBLE – Ethernet frame starts with 7-Bytes Preamble. This is a pattern of alternative 0’s and 1’s which indicates starting of the 
             frame and allow sender and receiver to establish bit synchronization. Initially, PRE (Preamble) was introduced to allow for the loss 
             of a few bits due to signal delays. But today’s high-speed Ethernet don’t need Preamble to protect the frame bits.
-            PRE (Preamble) indicates the receiver that frame is coming and allow the receiver to lock onto the data stream before the actual frame begins.
+            PRE (Preamble) indicates the receiver that frame is coming and allow the receiver to lock onto the data stream before the actual 	 frame begins.
             - Start of frame delimiter (SFD) is a 1-Byte field which is always set to 10101011. 
             SFD indicates that upcoming bits are starting of the frame, which is the destination address. 
             Sometimes SFD is considered the part of PRE, this is the reason Preamble is described as 8 Bytes in many places. 
@@ -464,8 +462,9 @@ implementations of the physical layer (coaxial cable, twisted pair, fiber optic)
 - 10 Gigabit Ethernet
     • Implementations for fiber (802.3ae)
     • Operates at distances of 40km (useful for MAN and WAN)
-    • Frame format is similar to other implementations of Ethernet
+    • Frame format is similar to other implementations of Ethernet');
 
+INSERT INTO data VALUES ('TCP/IP Model - Network Level','TCP/IP Model - Network Level
 • Network Level
     – It allows hosts to emit a packet in any network; packages travel independently up to destination
     – Highlights: routing packets congestion avoidance
@@ -483,16 +482,18 @@ implementations of the physical layer (coaxial cable, twisted pair, fiber optic)
     – Control:
         • ICMP (Internet Control Messages Protocol) - RFC 792,777
         • SNMP (Simple Network Management Protocol) – RFC 1157
-        • ICMPv6
+        • ICMPv6');
 
+INSERT INTO data VALUES ('TCP/IP Model - Transport level','TCP/IP Model - Transport level
 • Transport level
     – Ensures the realization of communication between the source host and destination host
     – Protocols
         • TCP (Transmission Control Protocol) - RFC 793,761
         • UDP (User Datagram Protocol) – RFC 768
         • Other Protocols: SCTP (Stream Control Transmission Protocol) – RFC 4960, 3286 (2960, 3309);DCCP
-        (Datagram Congestion Control Protocol) – RFC 4340, 4336;
+        (Datagram Congestion Control Protocol) – RFC 4340, 4336;');
 
+INSERT INTO data VALUES ('TCP/IP Model - Application Level','TCP/IP Model - Application Level
 • Application Level:
     – Contains high level protocols
     – SMTP (Simple Mail Transfer Protocol) – RFC 5321 (821)
@@ -504,8 +505,9 @@ implementations of the physical layer (coaxial cable, twisted pair, fiber optic)
     – HTTP (HyperText Transfer Protocol) – RFC 2616
     – RTP (Real-time Transport Protocol) – RFC 3550 (1889)
     – SIP (Session Initiation Protocol) – RFC 3261
-    – …etc
+    – …etc');
 
+INSERT INTO data VALUES ('TCP/IP Model - Organizations involved in standardization','TCP/IP Model - Organizations involved in standardization
 • Organizations involved in standardization:
     – ISOC – Internet Society
     – IAB – Internet Architecture Board
@@ -516,10 +518,9 @@ implementations of the physical layer (coaxial cable, twisted pair, fiber optic)
 • RFC (Request For Comments) documents
     – Edited by Network Working Group (IETF)
     – RFC 1800 (Internet Official Protocol Standards)
-    – More details -> www.ietf.org
+    – More details -> www.ietf.org');
 
-OSI versus TCP/IP
-
+INSERT INTO data VALUES ('OSI versus TCP/IP','OSI versus TCP/IP
 • Similarities:
     – Both are based on a protocol stack
     – The layer functionalities are somehow similar

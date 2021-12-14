@@ -27,6 +27,8 @@ namespace db
     int checkRank(const char *path, int id);
     int saveInvCode(const char *path, int id, const char * invitecode);
     int alreadyGenInvCode(const char *path, int id,char * invitecode);
+
+    int sendCompleterData(const char *path, int socket);
     
 }
 #endif // SQL_H

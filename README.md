@@ -10,8 +10,6 @@ Realizati un sistem cu arhitectura client/server care sa ajute la invatarea prin
 
 **Create a page with courses (try to upgrade it with a search bar with auto-complete from the database)**
 
-**Add chats on different themes**
-
 **Add the option to delete friends**
 
 **Send friend requests instead of adding people without their consent**

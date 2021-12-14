@@ -8,6 +8,7 @@
 #include "chat.h"
 #include <QListWidgetItem>
 #include <QListWidget>
+#include <QCompleter>
 
 namespace Ui {
 class Application;
@@ -22,6 +23,7 @@ public:
     void setClient(Client*);
     void setUserId(int);
     void setUsername(char*);
+    void initializeCompleter();
 
 private slots:
     void showPage(int);
@@ -36,9 +38,9 @@ private slots:
 
     void on_pushButton_GenInvCode_clicked();
 
-    void on_pushButton_clicked();
-
     void on_pushButton_chats_clicked();
+
+    void on_pushButton_search_clicked();
 
 signals:
     void logoutClicked();
@@ -47,6 +49,7 @@ private:
     Ui::Application *ui;
     Client *client;
     QFormLayout *layoutFriends = nullptr;
+    QCompleter *stringCompleter;
     char username[32];
     int userId;
 };

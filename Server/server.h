@@ -25,8 +25,8 @@ protected:
 
     void allChat(int client,int id);
     void insertMessageAllChat(int client,int id);
-    //void updateAllChat(int client,int id);
 
+    void sendCompleterData(int client);
     void sendData(int client);
 
 private:

@@ -10,8 +10,10 @@ Application::Application(QWidget *parent) : QWidget(parent), ui(new Ui::Applicat
     // Clear Button Enable
     ui->lineEdit_searchBar->setClearButtonEnabled(true);
 
-    // Set Maximum size
+    // Set Maximum length
     ui->lineEdit_searchBar->setMaxLength(32);
+
+    ui->lineEdit_MainSearchbar->setMaxLength(64);
 
     ui->textEdit_code->setReadOnly(true);
     ui->textEdit_data->setReadOnly(true);
@@ -34,6 +36,22 @@ void Application::setUserId(int id)
 void Application::setUsername(char* username)
 {
     strcpy(this->username,username);
+}
+
+void Application::initializeCompleter()
+{
+    this->client->sendBufferSize(13);
+    this->client->sendBufferChar((char*)"completerData");
+
+    QStringList dataList;
+    char data[50];
+    while(this->client->receiveBufferChar(data) != -1)
+    {
+        dataList << data;
+    }
+    this->stringCompleter = new QCompleter(dataList,this);
+    this->stringCompleter->setCaseSensitivity(Qt::CaseInsensitive);
+    ui->lineEdit_MainSearchbar->setCompleter(this->stringCompleter);
 }
 void Application::showPage(int index)
 {
@@ -157,21 +175,6 @@ void Application::on_pushButton_GenInvCode_clicked()
     }
 }
 
-void Application::on_pushButton_clicked()
-{
-    this->client->sendBufferSize(7);
-    this->client->sendBufferChar((char*)"courses");
-
-    this->client->sendBufferSize(2);
-    char data[50000];
-
-    if(this->client->receiveBufferChar(data) > 0)
-    {
-        ui->textEdit_data->setText(data);
-        ui->textEdit_data->setAlignment(Qt::AlignCenter);
-    }
-}
-
 void Application::on_pushButton_chats_clicked()
 {
      Chat * chat = new Chat(this);
@@ -188,4 +191,24 @@ void Application::on_pushButton_chats_clicked()
      chat->receiveMessages();
      chat->setWindowTitle(ui->comboBox_chats->currentText());
      chat->exec();
+}
+
+void Application::on_pushButton_search_clicked()
+{
+    this->client->sendBufferSize(8);
+    this->client->sendBufferChar((char*)"sendData");
+
+    QString dataNamestr = ui->lineEdit_MainSearchbar->text();
+    QByteArray dataName = dataNamestr.toLocal8Bit();
+
+    this->client->sendBufferSize(dataNamestr.length());
+    this->client->sendBufferChar(dataName.data());
+
+    char data[15000];
+
+    if(this->client->receiveBufferChar(data) > 0)
+    {
+        ui->textEdit_data->setText(data);
+        ui->textEdit_data->setAlignment(Qt::AlignCenter);
+    }
 }

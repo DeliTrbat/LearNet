@@ -558,7 +558,7 @@ int db::sendAllChatMessages(const char *path, const char *theme, int id, int soc
             }
             else
             {
-                sprintf(message, "Me: %s",sqlite3_column_text(stmt, 4));
+                sprintf(message, "Me: %s", sqlite3_column_text(stmt, 4));
             }
             printf("Sending message: %s\n", message);
             sendMsg(socket, message); // Send messages
@@ -573,7 +573,7 @@ int db::sendAllChatMessages(const char *path, const char *theme, int id, int soc
         handle_error("[server]Error sendBufferSize(int).\n");
     return 1;
 }
-int db::insertAllChatMessage(const char *path,const char *theme, const char *message, int id)
+int db::insertAllChatMessage(const char *path, const char *theme, const char *message, int id)
 {
     sqlite3 *db;
     if (sqlite3_open(path, &db))
@@ -582,13 +582,13 @@ int db::insertAllChatMessage(const char *path,const char *theme, const char *mes
         return -1;
     }
     char sql[1320];
-    sprintf(sql,"SELECT username,rank FROM accounts where id =%d;", id);
+    sprintf(sql, "SELECT username,rank FROM accounts where id =%d;", id);
     sqlite3_stmt *stmt;
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) == SQLITE_OK)
     {
         if (sqlite3_step(stmt) == SQLITE_ROW)
         {
-            sprintf(sql, "INSERT INTO chats VALUES (\'%s\',%d,\'%s\',\'%s\',\'%s\');", theme, id,sqlite3_column_text(stmt, 0),sqlite3_column_text(stmt, 1),message);
+            sprintf(sql, "INSERT INTO chats VALUES (\'%s\',%d,\'%s\',\'%s\',\'%s\');", theme, id, sqlite3_column_text(stmt, 0), sqlite3_column_text(stmt, 1), message);
             printf("Command: %s\n", sql);
             sqlite3_finalize(stmt);
         }
@@ -603,5 +603,33 @@ int db::insertAllChatMessage(const char *path,const char *theme, const char *mes
         return 0;
     }
     sqlite3_close(db);
+    return 1;
+}
+
+int db::sendCompleterData(const char *path, int socket)
+{
+    sqlite3 *db;
+    if (sqlite3_open(path, &db))
+    {
+        perror("Error sqlite3_open()");
+        return -1;
+    }
+    sqlite3_stmt *stmt;
+    char sql[256], data[50];
+    sprintf(sql, "SELECT type FROM data;");
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) == SQLITE_OK)
+    {
+        while (sqlite3_step(stmt) == SQLITE_ROW)
+        {
+            sprintf(data,"%s",sqlite3_column_text(stmt, 0));
+            printf("Sending message: %s\n", data);
+            sendMsg(socket, data); // Send completer data
+        }
+    }
+    sqlite3_finalize(stmt);
+    sqlite3_close(db);
+    int signalFinish = -1;
+    if (write(socket, &signalFinish, sizeof(int)) == -1)
+        handle_error("[server]Error sendBufferSize(int).\n");
     return 1;
 }

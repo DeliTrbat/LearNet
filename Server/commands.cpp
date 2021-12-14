@@ -192,34 +192,6 @@ void Server::updateChat(int client, int id1)
         // Send message to client that something went wrong
     }
 }
-void Server::sendData(int client)
-{
-    int course = 0;
-    if (read(client, &course, sizeof(int)) == -1)
-        handle_error("[server]Error readBufferSize(int).\n");
-    sqlite3 *db;
-    if (sqlite3_open(database, &db))
-    {
-        perror("Error sqlite3_open()");
-        return;
-    }
-    sqlite3_stmt *stmt;
-    char sql[256];
-    sprintf(sql, "SELECT * FROM courses where no = %d;", course);
-    char data[50000];
-    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) == SQLITE_OK)
-    {
-        if (sqlite3_step(stmt) == SQLITE_ROW)
-        {
-            sprintf(data, "%s", sqlite3_column_text(stmt, 1));
-            printf("User: %d Sending message: %s\n", course, data);
-            sendMsg(client, data); // Send messages
-        }
-    }
-    sqlite3_finalize(stmt);
-    sqlite3_close(db);
-}
-
 void Server::allChat(int client, int id)
 {
     char theme[16];
@@ -256,4 +228,46 @@ void Server::insertMessageAllChat(int client, int id)
             // Send message to client that something went wrong
         }
     }
+}
+void Server::sendCompleterData(int client)
+{
+    if(db::sendCompleterData(database,client) == 1)
+    {
+        printf("Completer data sent.\n");
+    }
+    else
+    {
+        perror("Error while sending completer data.\n");
+    }
+}
+void Server::sendData(int client) // Create a function in dbutilities to search for type
+{
+    char type[64];
+    recvMsg(client,type);
+    sqlite3 *db;
+    if (sqlite3_open(database, &db))
+    {
+        perror("Error sqlite3_open()");
+        return;
+    }
+    sqlite3_stmt *stmt;
+    char sql[256];
+    printf("Searching for: %s\n",type);
+    sprintf(sql, "SELECT data FROM data where type like \'%s\';", type);
+    char data[15000];
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) == SQLITE_OK)
+    {
+        if (sqlite3_step(stmt) == SQLITE_ROW)
+        {
+            sprintf(data, "%s", sqlite3_column_text(stmt, 0));
+            printf("Sending data: %s\n", data);
+            sendMsg(client, data); // Send data
+        }
+        else
+        {
+            sendMsg(client, (char*)"No data found!"); 
+        }
+    }
+    sqlite3_finalize(stmt);
+    sqlite3_close(db);
 }

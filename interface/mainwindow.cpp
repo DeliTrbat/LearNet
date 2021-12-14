@@ -51,6 +51,7 @@ void MainWindow::setClient(Client *client)
 void MainWindow::logout()
 {
     ui->stackedWidget->setCurrentIndex(0);
+    //delete appMenu;
 }
 void MainWindow::on_pushButton_Login_clicked()
 {
@@ -72,7 +73,7 @@ void MainWindow::on_pushButton_Login_clicked()
 
     if(size >= 0)
     {
-        QMessageBox::information(this,"Login","Username and password are correct");
+        QMessageBox::information(this,"Welcome!","Username and password are correct");
 
         ui->lineEdit_username->clear();
         ui->lineEdit_password->clear();
@@ -80,6 +81,7 @@ void MainWindow::on_pushButton_Login_clicked()
 
         appMenu.setUsername(usr.data());
         appMenu.setUserId(size);
+        appMenu.initializeCompleter();
 
         ui->stackedWidget->setCurrentIndex(1);
     }
@@ -119,10 +121,11 @@ void MainWindow::on_pushButton_SignUp_clicked()
         ui->lineEdit_username->clear();
         ui->lineEdit_password->clear();
         ui->lineEdit_inviteCode->clear();
-        QMessageBox::information(this,"SignUp","You have been succesfully registered");
+        QMessageBox::information(this,"Welcome!","You have been succesfully registered");
 
         appMenu.setUsername(usr.data());
         appMenu.setUserId(correctCredentials);
+        appMenu.initializeCompleter();
 
         ui->stackedWidget->setCurrentIndex(1);
     }
@@ -133,12 +136,12 @@ void MainWindow::on_pushButton_SignUp_clicked()
         switch (correctCredentials)
         {
         case -1:
-        QMessageBox::warning(this,"SignUp","Some error ocurred try to reconnect to the server!");
+        QMessageBox::warning(this,"Fatal error","Some error ocurred try to reconnect to the server!");
             break;
         case -2:
-        QMessageBox::warning(this,"SignUp","You introduced incorrect credentials! The username has to start with a letter and contain only letters and digits and the password has to have atleast one digit, one special char and one upper and lower letter!");
+        QMessageBox::warning(this,"Incorrect credentials","You introduced incorrect credentials!\nPlease make sure the username and password follow the rules:\n The username has to start with a letter and contain only letters and digits. \nThe password has to have minimum 10 characters, one number, one special character, uppercase and lowercase letters!\n Spaces are not permitted!");
             break;
-        case -3: QMessageBox::warning(this,"SignUp","The username is already in use!");
+        case -3: QMessageBox::warning(this,"Username already in user","The username is already in use!");
             break;
         default:
             break;
@@ -146,5 +149,5 @@ void MainWindow::on_pushButton_SignUp_clicked()
     }
     }
     else
-        QMessageBox::warning(this,"SignUp","Incorrect invite code!");
+        QMessageBox::warning(this,"Incorrect invite code","Incorrect invite code!");
 }

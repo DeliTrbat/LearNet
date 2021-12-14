@@ -113,21 +113,21 @@ void Server::executeClient(int client, char *command)
             }
             else if (strcmp(command, "allChat") == 0)
             {
-                allChat(client,loggedin);
+                allChat(client, loggedin);
             }
             else if (strcmp(command, "messageAllChat") == 0)
             {
-                insertMessageAllChat(client,loggedin);
+                insertMessageAllChat(client, loggedin);
             }
-            // else if (strcmp(command, "updateAllChat") == 0)
-            // {
-            //     updateAllChat(client,loggedin);
-            // }
             else if (strcmp(command, "generateInvCode") == 0)
             {
                 generateInvCode(client, loggedin);
             }
-            else if (strcmp(command, "courses") == 0)
+            else if (strcmp(command, "completerData") == 0)
+            {
+                sendCompleterData(client);
+            }
+            else if (strcmp(command, "sendData") == 0)
             {
                 sendData(client);
             }
