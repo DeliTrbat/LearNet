@@ -104,7 +104,16 @@ void Server::searchFriend(int client, int id)
     if (write(client, &found, sizeof(int)) == -1)
         handle_error("[server]Error sendBufferSize(int).\n");
 }
-
+void Server::removeFriend(int client, int id)
+{
+    int result = -1;
+    char username[32];
+    recvMsg(client, username);
+    printf("Username: %s \n", username);
+    result = db::removeFriend(database, username, id,client);
+    if (write(client, &result, sizeof(int)) == -1)
+        handle_error("[server]Error sendBufferSize(int).\n");
+}
 void Server::sendUserFriends(int client, int id)
 {
     int count = 0;
@@ -231,7 +240,7 @@ void Server::insertMessageAllChat(int client, int id)
 }
 void Server::sendCompleterData(int client)
 {
-    if(db::sendCompleterData(database,client) == 1)
+    if (db::sendCompleterData(database, client) == 1)
     {
         printf("Completer data sent.\n");
     }
@@ -243,7 +252,7 @@ void Server::sendCompleterData(int client)
 void Server::sendData(int client) // Create a function in dbutilities to search for type
 {
     char type[64];
-    recvMsg(client,type);
+    recvMsg(client, type);
     sqlite3 *db;
     if (sqlite3_open(database, &db))
     {
@@ -252,7 +261,7 @@ void Server::sendData(int client) // Create a function in dbutilities to search 
     }
     sqlite3_stmt *stmt;
     char sql[256];
-    printf("Searching for: %s\n",type);
+    printf("Searching for: %s\n", type);
     sprintf(sql, "SELECT data FROM data where type like \'%s\';", type);
     char data[15000];
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) == SQLITE_OK)
@@ -265,7 +274,7 @@ void Server::sendData(int client) // Create a function in dbutilities to search 
         }
         else
         {
-            sendMsg(client, (char*)"No data found!"); 
+            sendMsg(client, (char *)"No data found!");
         }
     }
     sqlite3_finalize(stmt);

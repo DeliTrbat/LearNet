@@ -13,6 +13,7 @@ namespace db
     int searchUsername(const char *path, const char *username);
     int insertUsrAndPwd(const char *path,const char *username,const char *password);
     int addFriend(const char *path,const char *username,int id);
+    int removeFriend(const char *path,const char* username, int id1,int socket);
     int countRows(const char *path,const char* tablename,int id);
     int sendFriendsNames(const char *path,int id, int socket);
 

@@ -99,6 +99,10 @@ void Server::executeClient(int client, char *command)
             {
                 sendUserFriends(client, loggedin);
             }
+            else if(strcmp(command,"removeFriend") == 0)
+            {
+                removeFriend(client,loggedin);
+            }
             else if (strcmp(command, "chatFriend") == 0)
             {
                 createChatFriend(client, loggedin);

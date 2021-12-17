@@ -9,10 +9,10 @@ Application::Application(QWidget *parent) : QWidget(parent), ui(new Ui::Applicat
 
     // Clear Button Enable
     ui->lineEdit_searchBar->setClearButtonEnabled(true);
+    ui->lineEdit_MainSearchbar->setClearButtonEnabled(true);
 
     // Set Maximum length
     ui->lineEdit_searchBar->setMaxLength(32);
-
     ui->lineEdit_MainSearchbar->setMaxLength(64);
 
     ui->textEdit_code->setReadOnly(true);
@@ -76,7 +76,9 @@ void Application::on_pushButton_friends_clicked()
     showPage(1);
     if( layoutFriends == nullptr)
     {
-        layoutFriends = new QFormLayout(this);
+        //layoutFriends = new QFormLayout(this);
+        this->layoutFriends = new QGridLayout(this);
+        this->layoutFriends->setAlignment(Qt::AlignTop);
 
         this->client->sendBufferSize(7);
         this->client->sendBufferChar((char*)"Friends");
@@ -86,9 +88,14 @@ void Application::on_pushButton_friends_clicked()
         for(int i = 0 ;i < count;i++)
         {
             this->client->receiveBufferChar(str);
-            QPushButton * button = new QPushButton("Message");
-            this->layoutFriends->addRow(new QLabel(str),button);
-            connect(button,&QPushButton::clicked,this,[=]{ openChat(str);});
+            QPushButton *button1 = new QPushButton("Message");
+            QPushButton *button2 = new QPushButton("Remove");
+            //this->layoutFriends->addRow(new QLabel(str),button);
+            this->layoutFriends->addWidget(new QLabel(str), i, 0);
+            this->layoutFriends->addWidget(button1, i, 1);
+            this->layoutFriends->addWidget(button2, i, 2);
+            connect(button1,&QPushButton::clicked,this,[=]{ openChat(str);});
+            connect(button2,&QPushButton::clicked,this,[=]{ deleteFriend(str);});
         }
         QWidget *scrollContents = new QWidget(this);
         scrollContents->setLayout(this->layoutFriends);
@@ -111,6 +118,50 @@ void Application::openChat(const char* str)
     chat->receiveMessages();
     chat->setWindowTitle(str);
     chat->exec();
+}
+void Application::deleteFriend(const char* usr)
+{
+    qDebug() << usr;
+    this->client->sendBufferSize(12);
+    this->client->sendBufferChar((char*)"removeFriend");
+
+    this->client->sendBufferSize(strlen(usr));
+    this->client->sendBufferChar((char*)usr);
+
+    if(this->client->receiveBufferSize() == -1)
+    {
+         QMessageBox::warning(this,"Remove","An error occured while removing friend!");
+    }
+    else
+    {
+        QMessageBox::information(this,"Remove","User succesfully removed from friendlist!");
+    }
+
+    // Create new grid without the deleted friend
+    delete this->layoutFriends;
+    this->layoutFriends = new QGridLayout(this);
+    this->layoutFriends->setAlignment(Qt::AlignTop);
+
+    this->client->sendBufferSize(7);
+    this->client->sendBufferChar((char*)"Friends");
+
+    int count = this->client->receiveBufferSize();
+    char str[32];
+    for(int i = 0 ;i < count;i++)
+    {
+        this->client->receiveBufferChar(str);
+        QPushButton *button1 = new QPushButton("Message");
+        QPushButton *button2 = new QPushButton("Remove");
+        this->layoutFriends->addWidget(new QLabel(str), i, 0);
+        this->layoutFriends->addWidget(button1, i, 1);
+        this->layoutFriends->addWidget(button2, i, 2);
+        connect(button1,&QPushButton::clicked,this,[=]{ openChat(str);});
+        connect(button2,&QPushButton::clicked,this,[=]{ deleteFriend(str);});
+    }
+    QWidget *scrollContents = new QWidget(this);
+    scrollContents->setLayout(this->layoutFriends);
+    ui->scrollArea->setWidget(scrollContents);
+
 }
 void Application::on_pushButton_mainMenu_clicked()
 {
@@ -145,9 +196,14 @@ void Application::on_pushButton_addFriend_clicked()
     }
     if(size == 1)
     {
-        QPushButton * button = new QPushButton("Message");
-        this->layoutFriends->addRow(new QLabel(usr.data()),button);
-        connect(button,&QPushButton::clicked,this,[=]{ openChat(usr.data());});
+        QPushButton *button1 = new QPushButton("Message");
+        QPushButton *button2 = new QPushButton("Remove");
+        int row = this->layoutFriends->count()/this->layoutFriends->columnCount();
+        this->layoutFriends->addWidget(new QLabel(usr.data()), this->layoutFriends->count()/this->layoutFriends->columnCount(), 0);
+        this->layoutFriends->addWidget(button1, row, 1);
+        this->layoutFriends->addWidget(button2, row, 2);
+        connect(button1,&QPushButton::clicked,this,[=]{ openChat(usr.data());});
+        connect(button2,&QPushButton::clicked,this,[=]{ deleteFriend(usr.data());});
 
         QWidget *scrollContents = new QWidget(this);
         scrollContents->setLayout(this->layoutFriends);

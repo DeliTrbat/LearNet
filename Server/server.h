@@ -16,6 +16,7 @@ protected:
     int login(int client);
     int signUp(int client);
     void searchFriend(int client, int id);
+    void removeFriend(int client, int id);
     void sendUserFriends(int client, int id);
     void generateInvCode(int client, int id);
 

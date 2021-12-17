@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS data (type VARCHAR(64) PRIMARY KEY , data VARCHAR(15000));
-
+-- Course 1:
 INSERT INTO data VALUES ('Fundamental notions','Concepts and fundamental notions
 
 Content
@@ -108,6 +108,7 @@ protocols
 • Repeater - device that receives signals that it rebroadcast at a higher level 
 or higher power, so that the signal can cover large areas without degrading its quality');
 
+-- Course 2:
 INSERT INTO data VALUES ('Computers Networks Structure','Computers Networks Structure
 
 • Computer Network Structure – stack levels
@@ -184,7 +185,7 @@ INSERT INTO data VALUES ('Devices and appropriate levels','Devices and appropria
 • Data link layer - Bridge, Switch
 • Physical layer - Repeater, Hub');
 
-INSERT INTO data VALUES ('OSI Model- motivation','OSI Model- motivation
+INSERT INTO data VALUES ('OSI Model - motivation','OSI Model - motivation
 • The need for a different level of abstraction => to create a new level
 • Obs. The number of levels must be optimal, therefore each 
 level has different functions and the whole architecture is functional
@@ -320,7 +321,7 @@ Medium Access Control – protocols:
 
 Medium Access Control – Standards Example
 
-Standard IEEE   |       Description
+Standard IEEE   |    Description
 802             |    Group standards for LAN and MAN
 802.2           |    LLC (Logical Link Control) 
 802.3           |    Ethernet (Carrier Sense Multiple Access with 
@@ -409,8 +410,8 @@ INSERT INTO data VALUES ('TCP/IP Model','TCP/IP Model
 • Successfully implemented over Ethernet (IEEE 802.3) -supported by many 
 implementations of the physical layer (coaxial cable, twisted pair, fiber optic)');
 
-INSERT INTO data VALUES ('TCP/IP Model - “Physical” level','TCP/IP Model - “Physical” level
-• “Physical” level
+INSERT INTO data VALUES ('TCP/IP Model - "Physical" level','TCP/IP Model - "Physical" level
+• "Physical" level
 – Ensure the connection between host and the network 
 
     Ethernet 
@@ -519,7 +520,7 @@ INSERT INTO data VALUES ('TCP/IP Model - Organizations involved in standardizati
     – Edited by Network Working Group (IETF)
     – RFC 1800 (Internet Official Protocol Standards)
     – More details -> www.ietf.org');
-
+    
 INSERT INTO data VALUES ('OSI versus TCP/IP','OSI versus TCP/IP
 • Similarities:
     – Both are based on a protocol stack
@@ -534,3 +535,20 @@ INSERT INTO data VALUES ('OSI versus TCP/IP','OSI versus TCP/IP
     treatment of errors at each level); TCP/IP verifies communication at transport level
     – OSI support both types of communication at network level (connectionless and connection
     oriented); TCP/IP has connectionless services at network level and both types at transport level');
+    
+-- Course 3:
+INSERT INTO data VALUES ('Network Level','Network Level
+• Role: offers connectionless services to 
+transport datagrams from source to 
+destination; source and destination can be 
+in different networks
+• Each datagram is independent from the 
+others
+• This level does not guarantee the right 
+transmission (loss, multiplier,…)');
+
+--INSERT INTO data VALUES ('IP – Internet Protocol','IP Protocol
+--• IP protocol is used for autonomous systems (AS - Autonomous 
+--Systems) in order to interconnect.
+--• IPv4 Datagram
+

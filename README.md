@@ -8,14 +8,8 @@ Realizati un sistem cu arhitectura client/server care sa ajute la invatarea prin
 
 **Delete invite codes after use and add 7 days timer to generate a new one**
 
-**Create a page with courses (try to upgrade it with a search bar with auto-complete from the database)**
-
-**Add the option to delete friends**
-
 **Send friend requests instead of adding people without their consent**
 
 **Edit error handlers to exit only when needed** 
 
-**Move read/send functions globally to make db namespace function better**
-
-**Check what you can do about errors when sending chars like '**
+**Add escape for char ' in database**
