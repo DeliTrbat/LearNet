@@ -8,6 +8,7 @@ class Server
 public:
     Server(int);
     void acceptClients();
+    void acceptClientsThreads();
 
 protected:
     void executeClient(int, char *);

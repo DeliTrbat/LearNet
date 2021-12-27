@@ -42,6 +42,18 @@ void Server::acceptClients()
             executeClient(client, msg);
     }
 }
+void Server::acceptClientsThreads()
+{
+    while (1)
+    {
+        int client;
+        char msg[1024];
+        socklen_t length = sizeof(this->addrClient);
+        client = accept(this->socketServer, (struct sockaddr *)&addrClient, &length);
+
+        std::thread th(&Server::executeClient, this,client,msg);
+    }
+}
 
 void Server::executeClient(int client, char *command)
 {
@@ -99,9 +111,9 @@ void Server::executeClient(int client, char *command)
             {
                 sendUserFriends(client, loggedin);
             }
-            else if(strcmp(command,"removeFriend") == 0)
+            else if (strcmp(command, "removeFriend") == 0)
             {
-                removeFriend(client,loggedin);
+                removeFriend(client, loggedin);
             }
             else if (strcmp(command, "chatFriend") == 0)
             {

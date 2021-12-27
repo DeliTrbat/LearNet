@@ -657,7 +657,6 @@ int db::sendCompleterData(const char *path, int socket)
         while (sqlite3_step(stmt) == SQLITE_ROW)
         {
             sprintf(data,"%s",sqlite3_column_text(stmt, 0));
-            printf("Sending message: %s\n", data);
             sendMsg(socket, data); // Send completer data
         }
     }

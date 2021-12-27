@@ -8,7 +8,7 @@ Realizati un sistem cu arhitectura client/server care sa ajute la invatarea prin
 
 **Delete invite codes after use and add 7 days timer to generate a new one**
 
-**Send friend requests instead of adding people without their consent**
+**Send friend requests instead of adding people without their consent and update it for every user + update friends for every user (because of delete friend)**
 
 **Edit error handlers to exit only when needed** 
 

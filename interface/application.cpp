@@ -76,7 +76,6 @@ void Application::on_pushButton_friends_clicked()
     showPage(1);
     if( layoutFriends == nullptr)
     {
-        //layoutFriends = new QFormLayout(this);
         this->layoutFriends = new QGridLayout(this);
         this->layoutFriends->setAlignment(Qt::AlignTop);
 
@@ -90,7 +89,6 @@ void Application::on_pushButton_friends_clicked()
             this->client->receiveBufferChar(str);
             QPushButton *button1 = new QPushButton("Message");
             QPushButton *button2 = new QPushButton("Remove");
-            //this->layoutFriends->addRow(new QLabel(str),button);
             this->layoutFriends->addWidget(new QLabel(str), i, 0);
             this->layoutFriends->addWidget(button1, i, 1);
             this->layoutFriends->addWidget(button2, i, 2);

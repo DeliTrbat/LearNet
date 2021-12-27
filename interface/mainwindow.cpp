@@ -51,7 +51,6 @@ void MainWindow::setClient(Client *client)
 void MainWindow::logout()
 {
     ui->stackedWidget->setCurrentIndex(0);
-    //delete appMenu;
 }
 void MainWindow::on_pushButton_Login_clicked()
 {

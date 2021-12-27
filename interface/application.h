@@ -49,7 +49,6 @@ signals:
 private:
     Ui::Application *ui;
     Client *client;
-    //QFormLayout *layoutFriends = nullptr;
     QGridLayout *layoutFriends = nullptr;
     QCompleter *stringCompleter;
     char username[32];

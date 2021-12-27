@@ -269,8 +269,8 @@ void Server::sendData(int client) // Create a function in dbutilities to search 
         if (sqlite3_step(stmt) == SQLITE_ROW)
         {
             sprintf(data, "%s", sqlite3_column_text(stmt, 0));
-            printf("Sending data: %s\n", data);
             sendMsg(client, data); // Send data
+            printf("Data: '%s' sent\n", type);
         }
         else
         {
