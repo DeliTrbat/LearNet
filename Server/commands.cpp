@@ -10,7 +10,7 @@ int Server::login(int client)
     found = db::searchUsrAndPwd(database, username, password);
 
     if (write(client, &found, sizeof(int)) == -1)
-        handle_error("[client]Error sendBufferSize(int).\n");
+        handle_error("[server]Error write().\n");
     return found;
 }
 
@@ -24,7 +24,7 @@ int Server::signUp(int client)
     found = db::searchInvCode(database, inviteCode);
 
     if (write(client, &found, sizeof(int)) == -1)
-        handle_error("[server]Error sendBufferSize(int).\n");
+        handle_error("[server]Error write().\n");
     if (found == 1)
     {
         char username[32], password[64];
@@ -44,20 +44,20 @@ int Server::signUp(int client)
             {
                 found = -2;
                 if (write(client, &found, sizeof(int)) == -1)
-                    handle_error("[server]Error sendBufferSize(int).\n");
+                    handle_error("[server]Error write().\n");
                 return found;
             }
             else
             {
                 found = db::insertUsrAndPwd(database, username, password);
                 if (write(client, &found, sizeof(int)) == -1)
-                    handle_error("[server]Error sendBufferSize(int).\n");
+                    handle_error("[server]Error write().\n");
             }
         }
         else
         {
             if (write(client, &found, sizeof(int)) == -1)
-                handle_error("[server]Error sendBufferSize(int).\n");
+                handle_error("[server]Error write().\n");
         }
     }
     return found;
@@ -102,7 +102,7 @@ void Server::searchFriend(int client, int id)
     printf("Username: %s \n", username);
     found = db::addFriend(database, username, id);
     if (write(client, &found, sizeof(int)) == -1)
-        handle_error("[server]Error sendBufferSize(int).\n");
+        handle_error("[server]Error write().\n");
 }
 void Server::removeFriend(int client, int id)
 {
@@ -110,9 +110,9 @@ void Server::removeFriend(int client, int id)
     char username[32];
     recvMsg(client, username);
     printf("Username: %s \n", username);
-    result = db::removeFriend(database, username, id,client);
+    result = db::removeFriend(database, username, id, client);
     if (write(client, &result, sizeof(int)) == -1)
-        handle_error("[server]Error sendBufferSize(int).\n");
+        handle_error("[server]Error write().\n");
 }
 void Server::sendUserFriends(int client, int id)
 {
@@ -120,7 +120,7 @@ void Server::sendUserFriends(int client, int id)
     count = db::countRows(database, "friends", id); // Count the number of friends
     printf("Count: %d\n", count);
     if (write(client, &count, sizeof(int)) == -1)
-        handle_error("[server]Error sendBufferSize(int).\n");
+        handle_error("[server]Error write().\n");
     if (db::sendFriendsNames(database, id, client) == -1)
     {
         // Send message to client that something went wrong
@@ -161,17 +161,19 @@ void Server::insertMessageFriend(int client, int id1)
         handle_error("[server]Error readBufferSize(int).\n");
     char message[1000];
     recvMsg(client, message);
-    printf("Inserting message: %s\n", message);
+    std::string msg = message;
+    replaceAll(msg, "'", "''"); // Replace all ' with '' to be able to add it to the database
+    printf("Inserting message: %s\n", msg.c_str());
     char table_name[30];
     if (id1 < id2)
         sprintf(table_name, "u%du%d", id1, id2);
     else
         sprintf(table_name, "u%du%d", id2, id1);
 
-    int done = db::insertMessage(database, message, table_name, id1);
+    int done = db::insertMessage(database, msg.c_str(), table_name, id1);
     printf("Sending result to the client.\n");
     if (write(client, &done, sizeof(int)) == -1)
-        handle_error("[server]Error sendBufferSize(int).\n");
+        handle_error("[server]Error write().\n");
 
     if (done == -1)
     {
@@ -219,12 +221,14 @@ void Server::insertMessageAllChat(int client, int id)
 
     char message[1052]; // 1000 message + 16 rank + 32 username
     recvMsg(client, message);
-    printf("Inserting message: %s\n", message);
+    std::string msg = message;
+    replaceAll(msg, "'", "''"); // Replace all ' with '' to be able to add it to the database
+    printf("Inserting message: %s\n", msg.c_str());
 
-    int done = db::insertAllChatMessage(database, theme, message, id);
+    int done = db::insertAllChatMessage(database, theme, msg.c_str(), id);
     printf("Sending result to the client.\n");
     if (write(client, &done, sizeof(int)) == -1)
-        handle_error("[server]Error sendBufferSize(int).\n");
+        handle_error("[server]Error write().\n");
 
     if (done == -1)
     {

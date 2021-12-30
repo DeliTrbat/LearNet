@@ -182,13 +182,13 @@ void Application::on_pushButton_addFriend_clicked()
 
     switch(size)
     {
-    case -1: QMessageBox::warning(this,"searchFriend","User not found!");
+    case -1: QMessageBox::warning(this,"Non-existent user","User not found!");
         break;
-    case 0: QMessageBox::warning(this,"searchFriend","User already in friend list!");
+    case 0: QMessageBox::warning(this,"Existing friend","User already in friend list!");
         break;
-    case 1: QMessageBox::information(this,"searchFriend","Friend added");
+    case 1: QMessageBox::information(this,"Success!","Friend added");
         break;
-    case 2: QMessageBox::warning(this,"searchFriend","Why are you so lonely?");
+    case 2: QMessageBox::warning(this,"Why?","Why are you so lonely?");
         break;
     default: break;
     }

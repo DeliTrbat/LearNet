@@ -38,8 +38,7 @@ int db::createTables(const char *path)
         return -1;
     }
 
-    sql = "CREATE TABLE IF NOT EXISTS chats (theme VARCHAR(16) NOT NULL,id INT NOT NULL,username VARCHAR(32) NOT NULL DEFAULT 'Deleted',rank VARCHAR(16) NOT NULL DEFAULT 'Member', message VARCHAR(1052), FOREIGN KEY(id,username) REFERENCES accounts(id,username) ON UPDATE CASCADE ON DELETE SET DEFAULT);";
-
+    sql = "CREATE TABLE IF NOT EXISTS chats (theme VARCHAR(16) NOT NULL,id INT NOT NULL,username VARCHAR(32) NOT NULL DEFAULT 'Deleted',rank VARCHAR(16) NOT NULL DEFAULT 'Member', message VARCHAR(2104), FOREIGN KEY(id,username) REFERENCES accounts(id,username) ON UPDATE CASCADE ON DELETE SET DEFAULT);";
     if (sqlite3_exec(db, sql.c_str(), NULL, NULL, &errorMsg) != SQLITE_OK)
     {
         fprintf(stderr, "SQL error createTables(): %s\n", errorMsg);
@@ -373,12 +372,12 @@ int db::createChatTable(const char *path, int id1, int id2, char *table_name)
     char sql[256];
     if (id1 < id2)
     {
-        sprintf(sql, "CREATE TABLE IF NOT EXISTS u%du%d (id int, message varchar(1000), timestamp datetime);", id1, id2);
+        sprintf(sql, "CREATE TABLE IF NOT EXISTS u%du%d (id int, message varchar(2000), timestamp datetime);", id1, id2);
         sprintf(table_name, "u%du%d", id1, id2);
     }
     else
     {
-        sprintf(sql, "CREATE TABLE IF NOT EXISTS u%du%d (id int, message varchar(1000), timestamp datetime);", id2, id1);
+        sprintf(sql, "CREATE TABLE IF NOT EXISTS u%du%d (id int, message varchar(2000), timestamp datetime);", id2, id1);
         sprintf(table_name, "u%du%d", id2, id1);
     }
     printf("Creating table: %s\n", sql);
@@ -409,14 +408,14 @@ int db::sendChatMessages(const char *path, const char *table_name, int socket)
             printf("User: %d Sending message: %s\n", id, message);
             sendMsg(socket, message); // Send messages
             if (write(socket, &id, sizeof(int)) == -1)
-                handle_error("[server]Error sendBufferSize(int).\n");
+                handle_error("[server]Error write().\n");
         }
     }
     sqlite3_finalize(stmt);
     sqlite3_close(db);
     int signalFinish = -1;
     if (write(socket, &signalFinish, sizeof(int)) == -1)
-        handle_error("[server]Error sendBufferSize(int).\n");
+        handle_error("[server]Error write().\n");
     return 1;
 }
 int db::getUsrId(const char *path, const char *username)
@@ -598,14 +597,14 @@ int db::sendAllChatMessages(const char *path, const char *theme, int id, int soc
             printf("Sending message: %s\n", message);
             sendMsg(socket, message); // Send messages
             if (write(socket, &idMsg, sizeof(int)) == -1)
-                handle_error("[server]Error sendBufferSize(int).\n");
+                handle_error("[server]Error write().\n");
         }
     }
     sqlite3_finalize(stmt);
     sqlite3_close(db);
     int signalFinish = -1;
     if (write(socket, &signalFinish, sizeof(int)) == -1)
-        handle_error("[server]Error sendBufferSize(int).\n");
+        handle_error("[server]Error write().\n");
     return 1;
 }
 int db::insertAllChatMessage(const char *path, const char *theme, const char *message, int id)
@@ -664,6 +663,6 @@ int db::sendCompleterData(const char *path, int socket)
     sqlite3_close(db);
     int signalFinish = -1;
     if (write(socket, &signalFinish, sizeof(int)) == -1)
-        handle_error("[server]Error sendBufferSize(int).\n");
+        handle_error("[server]Error write().\n");
     return 1;
 }
