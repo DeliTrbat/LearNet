@@ -85,7 +85,7 @@ void MainWindow::on_pushButton_Login_clicked()
         ui->stackedWidget->setCurrentIndex(1);
     }
     else
-        QMessageBox::warning(this,"Login","Username or password is not correct");
+        QMessageBox::warning(this,"Login failed","Username or password is not correct");
 
 }
 

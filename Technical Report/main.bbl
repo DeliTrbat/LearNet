@@ -1,0 +1,23 @@
+\begin{thebibliography}{1}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+\providecommand{\doi}[1]{https://doi.org/#1}
+
+\bibitem{kreibich2010using}
+Kreibich, J.: Using SQLite. " O'Reilly Media, Inc." (2010)
+
+\bibitem{kurose1986computer}
+Kurose, J.F., Ross, K.W.: Computer networking. A Top-Down  (1986),
+  \url{https://bit.ly/31oJF1q}
+
+\bibitem{computernetworks}
+Lenuta, A., Andrei, P.: Computer networks (2021),
+  \url{https://profs.info.uaic.ro/~computernetworks/}, [Online; accessed
+  1-December-2021]
+
+\bibitem{qtcreator}
+Nord, H., Chambe-Eng, E.: Embedded software development tools | cross platform
+  ide | qt creator (2021), \url{https://www.qt.io/product/development-tools},
+  [Online; accessed 1-December-2021]
+
+\end{thebibliography}

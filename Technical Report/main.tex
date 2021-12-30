@@ -37,11 +37,64 @@ data transfer service ensures that the data stream that a process reads out of i
 \includegraphics[width=6.6in, height=3.3in]{images/application.png}
 \caption{Application diagram}
 \end{figure}
+\newpage
+\par When the user starts the application it automatically connects to the server, if the server is not running it will throw an error, and the login/sign up menu will appear ( figure 3 )
+\begin{figure}[H]
+\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{images/login-signup.png}
+\caption{Application login/sign up}
+\end{figure}
+, as said prior, if the user doesn't have an account he can create one by providing an username that doesn't exists in the database with a password and a valid invitecode, that can be obtained from a friend that has the permission to generate one, if the username already exists, the invite code is incorrect or the password doesn't respect the minimum requirements a specific warning will pop-up ( figures 4-5). After successfully signing up the user will be automatically logged in the application. ( figure 6)
+
+\begin{figure}[H]
+\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{images/incorrectCredentials.png}
+\caption{Incorrect Credentials warning}
+\end{figure}
+
+\begin{figure}[H]
+\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{images/incorrectInvitecode.png}
+\caption{Incorrect Invite code warning}
+\end{figure}
+
+\begin{figure}[H]
+\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{images/succesfullyRegistered.png}
+\caption{Successfully registered message box}
+\end{figure}
+
+The users that already have an account can just press on "Login" after completing the "Username:" and "Password:" fields ( the "Invite code:" field is ignored in this case), after pressing the "Login" button a pop-up will appear, if the username exists and the password is correct ( is the same with the one introduced at the creation of the account) a "Welcome!" message box will appear ( figure 7) and after closing it the user will be redirected to the application main menu, otherwise a warning will appear ( figure 8)
+\newpage
+
+\begin{figure}[H]
+\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{images/correctUsernameOrPassword.png}
+\caption{Welcome! message box}
+\end{figure}
+
+
+\begin{figure}[H]
+\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{images/incorrectUsernameOrPassword.png}
+\caption{Login failed warning}
+\end{figure}
+
+The main menu ( figure 9) has 4 different buttons, the "Logout" button redirect the user to the login/sign up menu, the "Friends" button redirect the user to the friend list where it can add, remove or message a friend and generate an invite code if he has the permission ( figure 10), the "Search" button helps the user find the information he wants, of course if it exists in the database, and finally the "Open chat" button will open the all chat selected on the list located to the left of the "Open chat" button ( figure 11)
+
+\begin{figure}[H]
+\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{images/mainmenu.png}
+\caption{Main menu}
+\end{figure}
+
+\begin{figure}[H]
+\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{images/friendsmenu.png}
+\caption{Friends menu}
+\end{figure}
+
+\begin{figure}[H]
+\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{images/allchat.png}
+\caption{All chat}
+\end{figure}
 
 \newpage
 \section{Implementation details}
 \par Every byte stream, sent between clients and server, is prefixed by his length.  
-\par As you have seen in the application diagram ( figure 2) the database stands in the center of the implementation, in figure 3 we show how the database was designed. The chats between individual users are saved as different tables for every two users, that's why only the table \textbf{courseschats} appears in the diagram, which is used to save messages from every global chat.
+\par As you have seen in the application diagram ( figure 2) the database stands in the center of the implementation, in figure 12 we show how the database was designed. The chats between individual users are saved as different tables for every two users, that's why only the table \textbf{courseschats} appears in the diagram, which is used to save messages from every global chat.
 
 \begin{figure}[H]
 \includegraphics[]{images/dbdiagram.png}
@@ -84,8 +137,6 @@ data transfer service ensures that the data stream that a process reads out of i
 \caption{Server-chat}
 \end{center}
 \end{figure}
-
-
 
 \section{Conclusions}
 
