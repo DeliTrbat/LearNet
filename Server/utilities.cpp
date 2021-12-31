@@ -20,7 +20,7 @@ void sendMsg(int client, char *str)
     if (write(client, &size, sizeof(int)) == -1)
         handle_error("[server]Error writeBufferSize(int).\n");
     if (write(client, str, size) == -1)
-        handle_error("[server]Error writeBufferSize(int).\n");
+        handle_error("[server]Error writeBuffer(char*).\n");
 }
 
 void recvMsg(int client, char *str)
