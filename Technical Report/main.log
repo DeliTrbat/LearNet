@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2021.10.29)  31 DEC 2021 14:26
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2021.10.29)  31 DEC 2021 15:49
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -490,59 +490,64 @@ Package pdftex.def Info: images/dbdiagram.png  used on input line 98.
 (pdftex.def)             Requested size: 347.14615pt x 250.99615pt.
 
 [10 <./images/dbdiagram.PNG>]
+Overfull \hbox (88.57106pt too wide) in paragraph at lines 114--115
+\OT1/cmr/m/n/10 and the fol-low-ing func-tions:  \OT1/cmr/bx/n/10 void Server::
+acceptClients(), void Server::executeClient(int,
+ []
+
 <images/sendRecv.png, id=109, 640.794pt x 566.71725pt>
 File: images/sendRecv.png Graphic file (type png)
 <use images/sendRecv.png>
-Package pdftex.def Info: images/sendRecv.png  used on input line 111.
+Package pdftex.def Info: images/sendRecv.png  used on input line 142.
 (pdftex.def)             Requested size: 347.1285pt x 306.99991pt.
- [11 <./images/sendRecv.PNG>]
-<images/client-login.png, id=117, 410.13225pt x 274.02374pt>
+[11] [12 <./images/sendRecv.PNG>]
+<images/client-login.png, id=142, 410.13225pt x 274.02374pt>
 File: images/client-login.png Graphic file (type png)
 <use images/client-login.png>
-Package pdftex.def Info: images/client-login.png  used on input line 119.
+Package pdftex.def Info: images/client-login.png  used on input line 150.
 (pdftex.def)             Requested size: 410.13124pt x 274.02307pt.
 
-Overfull \hbox (63.0077pt too wide) in paragraph at lines 119--120
+Overfull \hbox (63.0077pt too wide) in paragraph at lines 150--151
 [][] 
  []
 
-[12 <./images/client-login.PNG>]
-<images/server-login.png, id=125, 333.6465pt x 162.00525pt>
+[13 <./images/client-login.PNG>]
+<images/server-login.png, id=151, 333.6465pt x 162.00525pt>
 File: images/server-login.png Graphic file (type png)
 <use images/server-login.png>
-Package pdftex.def Info: images/server-login.png  used on input line 126.
+Package pdftex.def Info: images/server-login.png  used on input line 157.
 (pdftex.def)             Requested size: 333.64568pt x 162.00484pt.
-<images/client-chat.png, id=126, 295.70474pt x 201.75375pt>
+<images/client-chat.png, id=152, 295.70474pt x 201.75375pt>
 File: images/client-chat.png Graphic file (type png)
 <use images/client-chat.png>
-Package pdftex.def Info: images/client-chat.png  used on input line 135.
+Package pdftex.def Info: images/client-chat.png  used on input line 166.
 (pdftex.def)             Requested size: 295.70401pt x 201.75325pt.
- [13 <./images/server-login.PNG> <./images/client-chat.PNG>]
-<images/server-chat.png, id=136, 340.27126pt x 563.706pt>
+ [14 <./images/server-login.PNG> <./images/client-chat.PNG>]
+<images/server-chat.png, id=161, 340.27126pt x 563.706pt>
 File: images/server-chat.png Graphic file (type png)
 <use images/server-chat.png>
-Package pdftex.def Info: images/server-chat.png  used on input line 144.
+Package pdftex.def Info: images/server-chat.png  used on input line 175.
 (pdftex.def)             Requested size: 340.27042pt x 563.70462pt.
 
 Overfull \vbox (47.31635pt too high) has occurred while \output is active []
 
 
-[14 <./images/server-chat.PNG>] (./main.bbl)
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 155.
- [15]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 155.
+[15 <./images/server-chat.PNG>] (./main.bbl)
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 186.
+ [16]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 186.
  (./main.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 155.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 155.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 186.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 186.
 Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 3BA305C225CCDB2B112258FD695B4A51;42.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 155.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 186.
  ) 
 Here is how much of TeX's memory you used:
- 6239 strings out of 481239
- 93964 string characters out of 5920376
- 364715 words of memory out of 5000000
- 21352 multiletter control sequences out of 15000+600000
+ 6262 strings out of 481239
+ 94127 string characters out of 5920376
+ 366715 words of memory out of 5000000
+ 21353 multiletter control sequences out of 15000+600000
  536154 words of font info for 37 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  34i,7n,37p,655b,359s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -555,10 +560,10 @@ onts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/typ
 e1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
 lic/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/ams
 fonts/cm/cmtt9.pfb>
-Output written on main.pdf (15 pages, 712036 bytes).
+Output written on main.pdf (16 pages, 717134 bytes).
 PDF statistics:
- 199 PDF objects out of 1000 (max. 8388607)
- 134 compressed objects within 2 object streams
- 45 named destinations out of 1000 (max. 500000)
+ 228 PDF objects out of 1000 (max. 8388607)
+ 162 compressed objects within 2 object streams
+ 67 named destinations out of 1000 (max. 500000)
  94 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -104,6 +104,37 @@ The main menu ( figure 9) has 4 different buttons, the "Logout" button redirect 
 
 \newpage
 \section{Implementation details}
+\par The server source code is split in 8 files:
+\begin{enumerate}
+\item \textbf{utilities.h} - used as an umbrella, containing every library needed and 5 utility functions: \textbf{handle\_ error(char*), int readBytes(int, char *, unsigned int), void recvMsg(int, char *), void sendMsg(int, char *), replaceAll}(std::string \& , const std::string \& , const std::string \& );
+\item \textbf{utilities.cpp} - contains the implementation of the functions mentioned above;
+\item \textbf{dbutilities.h} - contains the definition of the functions needed to save or take data from database;
+\item \textbf{dbutilities.cpp} - contains the implementation of the functions from point 4;
+\item \textbf{server.h} - contains the \textbf{Server} class;
+\item \textbf{server.cpp} - contains the implementation of the \textbf{Server} class constructor and the following functions: \textbf{ void Server::acceptClients(), void Server::executeClient(int, char *), void Server::acceptClientsThreads()};
+\item \textbf{commands.cpp} - contains the implementation of the \textbf{Server} class functions that analyze the data received from clients;;
+\item \textbf{main.cpp} - contains the main function.
+\end{enumerate}
+
+\par The client source code is split in 13 files:
+
+\begin{enumerate}
+
+\item \textbf{client.h} - contains the \textbf{Client} class used for the connection between server and client;
+\item \textbf{client.cpp} - contains the implementation of the \textbf{Client} class;
+\item \textbf{mainwindow.h} - contains the \textbf{MainWindow} class;
+\item \textbf{mainwindow.cpp} -  contains the implementation of the \textbf{MainWindow} class;
+\item \textbf{mainwindow.ui} - stores the forms of the application login/sign up window in XML format;
+\item \textbf{application.h} - contains the \textbf{Application} class;
+\item \textbf{application.cpp} - contains the implementation of the \textbf{Application} class;
+\item \textbf{application.ui} - stores the forms of the application main window in XML format;
+\item \textbf{chat.h} - contains the \textbf{Chat} class
+\item \textbf{chat.cpp} - contains the implementation of the \textbf{Chat} class;
+\item \textbf{chat.ui} - stores the forms of the application chat window in XML format;
+\item \textbf{interface.pro} - it's a multiplatform project file which qmake turns into platform-specific makefiles;
+\item \textbf{main.cpp} - contains the main function.
+\end{enumerate}
+
 \par Every byte stream, sent between clients and server, is prefixed by his length as shown in the figure 13, where \textbf{readBytes(int,char*,unsigned int)} function is used to read byte by byte the information so as not to lose data. 
 
 
