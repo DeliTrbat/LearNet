@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2021.10.29)  31 DEC 2021 15:49
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2021.10.29)  1 JAN 2022 18:55
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -404,31 +404,28 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 <images/client-server.png, id=34, 317.08463pt x 432.26494pt>
 File: images/client-server.png Graphic file (type png)
 <use images/client-server.png>
-Package pdftex.def Info: images/client-server.png  used on input line 33.
-(pdftex.def)             Requested size: 317.08385pt x 432.26389pt.
+Package pdftex.def Info: images/client-server.png  used on input line 38.
+(pdftex.def)             Requested size: 347.14429pt x 375.81023pt.
 <images/application.png, id=35, 614.295pt x 280.04625pt>
 File: images/application.png Graphic file (type png)
 <use images/application.png>
-Package pdftex.def Info: images/application.png  used on input line 37.
+Package pdftex.def Info: images/application.png  used on input line 42.
 (pdftex.def)             Requested size: 476.98291pt x 238.50192pt.
 
-Overfull \hbox (129.85938pt too wide) in paragraph at lines 37--38
+Overfull \hbox (129.85938pt too wide) in paragraph at lines 42--43
 [][] 
  []
 
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [2 <./images/client-server.png>] [3 <./images/application.png>]
+[2 <./images/client-server.png>] [3 <./images/application.png>]
 <images/login-signup.png, id=48, 483.60675pt x 312.56775pt>
 File: images/login-signup.png Graphic file (type png)
 <use images/login-signup.png>
-Package pdftex.def Info: images/login-signup.png  used on input line 43.
+Package pdftex.def Info: images/login-signup.png  used on input line 48.
 (pdftex.def)             Requested size: 347.1266pt x 224.35703pt.
 <images/incorrectCredentials.png, id=50, 483.0045pt x 313.77225pt>
 File: images/incorrectCredentials.png Graphic file (type png)
 <use images/incorrectCredentials.png>
-Package pdftex.def Info: images/incorrectCredentials.png  used on input line 49
+Package pdftex.def Info: images/incorrectCredentials.png  used on input line 54
 .
 (pdftex.def)             Requested size: 347.12177pt x 225.4993pt.
 
@@ -438,14 +435,14 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 <images/incorrectInvitecode.png, id=57, 484.209pt x 313.77225pt>
 File: images/incorrectInvitecode.png Graphic file (type png)
 <use images/incorrectInvitecode.png>
-Package pdftex.def Info: images/incorrectInvitecode.png  used on input line 54.
+Package pdftex.def Info: images/incorrectInvitecode.png  used on input line 59.
 
 (pdftex.def)             Requested size: 347.13774pt x 224.9487pt.
 <images/succesfullyRegistered.png, id=58, 482.40225pt x 314.3745pt>
 File: images/succesfullyRegistered.png Graphic file (type png)
 <use images/succesfullyRegistered.png>
-Package pdftex.def Info: images/succesfullyRegistered.png  used on input line 5
-9.
+Package pdftex.def Info: images/succesfullyRegistered.png  used on input line 6
+4.
 (pdftex.def)             Requested size: 347.13797pt x 226.22473pt.
  [5 <./images/incorrectCredentials.PNG> <./images/incorrectInvitecode.PNG>] [6 
 <./images/succesfullyRegistered.PNG>]
@@ -453,25 +450,25 @@ Package pdftex.def Info: images/succesfullyRegistered.png  used on input line 5
 File: images/correctUsernameOrPassword.png Graphic file (type png)
 <use images/correctUsernameOrPassword.png>
 Package pdftex.def Info: images/correctUsernameOrPassword.png  used on input li
-ne 67.
+ne 72.
 (pdftex.def)             Requested size: 347.12177pt x 224.63365pt.
 <images/incorrectUsernameOrPassword.png, id=74, 484.81125pt x 313.77225pt>
 File: images/incorrectUsernameOrPassword.png Graphic file (type png)
 <use images/incorrectUsernameOrPassword.png>
 Package pdftex.def Info: images/incorrectUsernameOrPassword.png  used on input 
-line 73.
+line 78.
 (pdftex.def)             Requested size: 347.14044pt x 224.671pt.
  [7 <./images/correctUsernameOrPassword.PNG> <./images/incorrectUsernameOrPassw
 ord.PNG>]
 <images/mainmenu.png, id=84, 481.8pt x 311.9655pt>
 File: images/mainmenu.png Graphic file (type png)
 <use images/mainmenu.png>
-Package pdftex.def Info: images/mainmenu.png  used on input line 80.
+Package pdftex.def Info: images/mainmenu.png  used on input line 85.
 (pdftex.def)             Requested size: 347.13098pt x 224.7673pt.
 <images/friendsmenu.png, id=85, 483.0045pt x 311.9655pt>
 File: images/friendsmenu.png Graphic file (type png)
 <use images/friendsmenu.png>
-Package pdftex.def Info: images/friendsmenu.png  used on input line 85.
+Package pdftex.def Info: images/friendsmenu.png  used on input line 90.
 (pdftex.def)             Requested size: 347.12177pt x 224.20085pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -480,77 +477,82 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 <images/allchat.png, id=92, 483.60675pt x 314.97675pt>
 File: images/allchat.png Graphic file (type png)
 <use images/allchat.png>
-Package pdftex.def Info: images/allchat.png  used on input line 90.
+Package pdftex.def Info: images/allchat.png  used on input line 95.
 (pdftex.def)             Requested size: 347.1266pt x 226.08618pt.
  [9 <./images/friendsmenu.PNG> <./images/allchat.PNG>]
 <images/dbdiagram.png, id=101, 373.99725pt x 270.41025pt>
 File: images/dbdiagram.png Graphic file (type png)
 <use images/dbdiagram.png>
-Package pdftex.def Info: images/dbdiagram.png  used on input line 98.
+Package pdftex.def Info: images/dbdiagram.png  used on input line 103.
 (pdftex.def)             Requested size: 347.14615pt x 250.99615pt.
 
 [10 <./images/dbdiagram.PNG>]
-Overfull \hbox (88.57106pt too wide) in paragraph at lines 114--115
+Overfull \hbox (88.57106pt too wide) in paragraph at lines 140--141
 \OT1/cmr/m/n/10 and the fol-low-ing func-tions:  \OT1/cmr/bx/n/10 void Server::
 acceptClients(), void Server::executeClient(int,
  []
 
-<images/sendRecv.png, id=109, 640.794pt x 566.71725pt>
+[11]
+<images/sendRecv.png, id=125, 640.794pt x 566.71725pt>
 File: images/sendRecv.png Graphic file (type png)
 <use images/sendRecv.png>
-Package pdftex.def Info: images/sendRecv.png  used on input line 142.
+Package pdftex.def Info: images/sendRecv.png  used on input line 168.
 (pdftex.def)             Requested size: 347.1285pt x 306.99991pt.
-[11] [12 <./images/sendRecv.PNG>]
-<images/client-login.png, id=142, 410.13225pt x 274.02374pt>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [12]
+[13 <./images/sendRecv.PNG>]
+<images/client-login.png, id=149, 410.13225pt x 274.02374pt>
 File: images/client-login.png Graphic file (type png)
 <use images/client-login.png>
-Package pdftex.def Info: images/client-login.png  used on input line 150.
+Package pdftex.def Info: images/client-login.png  used on input line 176.
 (pdftex.def)             Requested size: 410.13124pt x 274.02307pt.
 
-Overfull \hbox (63.0077pt too wide) in paragraph at lines 150--151
+Overfull \hbox (63.0077pt too wide) in paragraph at lines 176--177
 [][] 
  []
 
-[13 <./images/client-login.PNG>]
-<images/server-login.png, id=151, 333.6465pt x 162.00525pt>
+[14 <./images/client-login.PNG>]
+<images/server-login.png, id=157, 333.6465pt x 162.00525pt>
 File: images/server-login.png Graphic file (type png)
 <use images/server-login.png>
-Package pdftex.def Info: images/server-login.png  used on input line 157.
+Package pdftex.def Info: images/server-login.png  used on input line 183.
 (pdftex.def)             Requested size: 333.64568pt x 162.00484pt.
-<images/client-chat.png, id=152, 295.70474pt x 201.75375pt>
+<images/client-chat.png, id=158, 295.70474pt x 201.75375pt>
 File: images/client-chat.png Graphic file (type png)
 <use images/client-chat.png>
-Package pdftex.def Info: images/client-chat.png  used on input line 166.
+Package pdftex.def Info: images/client-chat.png  used on input line 192.
 (pdftex.def)             Requested size: 295.70401pt x 201.75325pt.
- [14 <./images/server-login.PNG> <./images/client-chat.PNG>]
-<images/server-chat.png, id=161, 340.27126pt x 563.706pt>
+ [15 <./images/server-login.PNG> <./images/client-chat.PNG>]
+<images/server-chat.png, id=167, 340.27126pt x 563.706pt>
 File: images/server-chat.png Graphic file (type png)
 <use images/server-chat.png>
-Package pdftex.def Info: images/server-chat.png  used on input line 175.
+Package pdftex.def Info: images/server-chat.png  used on input line 201.
 (pdftex.def)             Requested size: 340.27042pt x 563.70462pt.
 
 Overfull \vbox (47.31635pt too high) has occurred while \output is active []
 
 
-[15 <./images/server-chat.PNG>] (./main.bbl)
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 186.
- [16]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 186.
+[16 <./images/server-chat.PNG>] (./main.bbl)
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 212.
+ [17]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 212.
  (./main.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 186.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 186.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 212.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 212.
 Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 3BA305C225CCDB2B112258FD695B4A51;42.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 186.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 212.
  ) 
 Here is how much of TeX's memory you used:
- 6262 strings out of 481239
- 94127 string characters out of 5920376
+ 6265 strings out of 481239
+ 94166 string characters out of 5920376
  366715 words of memory out of 5000000
  21353 multiletter control sequences out of 15000+600000
  536154 words of font info for 37 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 34i,7n,37p,655b,359s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 34i,7n,37p,655b,389s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share/texli
@@ -560,10 +562,10 @@ onts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/typ
 e1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
 lic/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/ams
 fonts/cm/cmtt9.pfb>
-Output written on main.pdf (16 pages, 717134 bytes).
+Output written on main.pdf (17 pages, 721351 bytes).
 PDF statistics:
- 228 PDF objects out of 1000 (max. 8388607)
- 162 compressed objects within 2 object streams
- 67 named destinations out of 1000 (max. 500000)
+ 234 PDF objects out of 1000 (max. 8388607)
+ 167 compressed objects within 2 object streams
+ 70 named destinations out of 1000 (max. 500000)
  94 words of extra memory for PDF output out of 10000 (max. 10000000)
 

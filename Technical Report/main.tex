@@ -16,6 +16,11 @@
 
 \maketitle
 
+\begin{abstract}
+LearNet is an application created to help students or anyone who wants to learn Computer Networks. The application is designed so that users have quick access to a lot of information in the field and can interact with other enthusiasts at the same time.
+\end{abstract}
+
+
 \section{Introduction}
 \par In this report we will discuss in detail about LearNet application. This application is a client-server application where clients can interact with each other through chat or find useful information about computer networks. Every client needs an existing account to enter the application or they can create one if they have an invite code. Every chat, account and informational data is saved in an SQLite database. The information about computer networks that is presented in the application is taken from Alboaie Lenuta and Panu Andrei Computer Networks courses from Faculty of Computer Science \cite{computernetworks}.
 \par The structure of this paper is as follows: Section 2 describes the technologies used in the creation of the application. Section 4 describes the architecture of the application. In Section 5 we present some implementation details including parts of the source code. Finally we draw some conclusions.
@@ -30,7 +35,7 @@ data transfer service ensures that the data stream that a process reads out of i
 \par As we said prior the connection between server and client is done with TCP protocol and we create different processes to be able to serve clients concurrently. The server gets requests from the client it processes them and send back the data resulted. We created a database to save every client account information ( username, password, rank, chats and chat messages) and the information about computer networks. In figure 1 you can see how the connection between server-client was made and in figure 2 are presented the inside workings of the application. 
 
 \begin{figure}[H]
-\includegraphics[]{images/client-server.png}
+\includegraphics[width=\textwidth, height=5.2in]{images/client-server.png}
 \caption{Application diagram}
 \end{figure}
 \begin{figure}[H]
@@ -104,6 +109,27 @@ The main menu ( figure 9) has 4 different buttons, the "Logout" button redirect 
 
 \newpage
 \section{Implementation details}
+
+\subsection{Implementation use cases}
+
+\begin{itemize}
+
+
+\item \textbf{Use case 1:} Search for data\\
+\textbf{Actor:} Student\\
+\textbf{Basic Flow:} A student decides to use the application to search for a piece of information he couldn't find elsewhere. He starts the application, login into his account, searches for the information and finds it.\\
+\textbf{Alternative Flow 1:} He notices that he doesn't have an account so he needs an invite code to create one.\\
+\textbf{Alternative Flow 2:} He doesn't find the information, so he asks for that information in the chat.
+
+\item \textbf{Use case 2:} Need help\\
+\textbf{Actor:} Student\\
+\textbf{Basic Flow:} A student needs help for a project related to computer networks, he asks on the LearNet application chat for help and someone helps him.\\
+\textbf{Alternative Flow 1:} He doesn't want everyone to see what he doesn't know because it might make him look stupid so he adds the user to his friend list and speaks with him  in private.
+
+
+
+\end{itemize}
+\subsection{Implementation}
 \par The server source code is split in 8 files:
 \begin{enumerate}
 \item \textbf{utilities.h} - used as an umbrella, containing every library needed and 5 utility functions: \textbf{handle\_ error(char*), int readBytes(int, char *, unsigned int), void recvMsg(int, char *), void sendMsg(int, char *), replaceAll}(std::string \& , const std::string \& , const std::string \& );
@@ -144,7 +170,7 @@ The main menu ( figure 9) has 4 different buttons, the "Logout" button redirect 
 \end{figure}
 
 \newpage 
-\par We decided to explain and show how the login works. The client sends the command "login", the username and the password to the server and waits for the server to respond ( figure 4). The server checks the command and calls function \textbf{login(int)} where it reads the username and password and searches for them in the database to see if there is a match in \textbf{accounts} table the function \textbf{searchUsrAndPwd(database, username, password)} returns -1 on failure and the user id on success ( 0$\leq$id) ( figure 5).
+\par We decided to explain and show how the login works. The client sends the command "login", the username and the password to the server and waits for the server to respond ( figure 14). The server checks the command and calls function \textbf{login(int)} where it reads the username and password and searches for them in the database to see if there is a match in \textbf{accounts} table the function \textbf{searchUsrAndPwd(database, username, password)} returns -1 on failure and the user id on success ( 0$\leq$id) ( figure 15).
 
 \begin{figure}[H]
 \includegraphics[]{images/client-login.png}
