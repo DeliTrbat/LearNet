@@ -7,13 +7,3 @@ To compile the server, you must have the "sqlite3" library installed, which you 
 To compile the client you will need do install Qt creator 5 that can be installed with: sudo apt-get install qt5-default ( on Ubuntu terminal).
 The server port is 2000 and the client is automatically set to connect to the 127.0.0.1 ip address.
 
-
-**TO DO:**
-
-**Add password encryption \[server\]**
-
-**Delete invite codes after use and add 7 days timer to generate a new one**
-
-**Send friend requests instead of adding people without their consent and update it for every user + update friends for every user (because of delete friend)**
-
-**Edit error handlers to exit only when needed** 
