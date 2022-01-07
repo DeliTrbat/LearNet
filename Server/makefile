@@ -1,2 +1,2 @@
 sv:
-	g++ -Wall *.cpp -o server -lsqlite3 -pthread
+	g++ -Wall src/*.cpp -o server.bin -lsqlite3 -pthread
